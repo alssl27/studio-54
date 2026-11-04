@@ -71,7 +71,14 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Empty matcher notes are explained, successful feedback is announced, and temporary previews are released.
 - **Success test:** Browser checks cover empty submission, valid recommendation feedback, and image preview behavior.
 
-### 10. Complete the contact workflow
+### 10. Improve booking progress and loading semantics
+- [x] **What:** Add current-step semantics, live step-region guidance, and an accessible busy state during booking submission.
+- **Why:** Customers and assistive technologies need clear progress and feedback during the multi-step flow.
+- **Files:** `booking.html`, `script.js`.
+- **Expected result:** The active step is announced and the submit request communicates its in-progress state.
+- **Success test:** Browser checks confirm `aria-current` moves with the step and `aria-busy` is applied during submission.
+
+### 11. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.
 - **Files:** `contact.html`, `script.js`, `server.js`, `db/schema.sql` if persistence is approved.
@@ -80,7 +87,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 
 ## Phase 4 — Finish the appointment booking system
 
-### 11. Add database-backed services, stylists, and availability
+### 12. Add database-backed services, stylists, and availability
 - [ ] **What:** Add API reads for active services, stylists, working hours, closures, and available slots.
 - **Why:** Static choices do not represent real availability.
 - **Files:** `db/schema.sql`, `server.js`, `booking.html`, `script.js`.

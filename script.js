@@ -154,7 +154,11 @@ const bookingData = {
 };
 const showBookingStep = (step) => {
   bookingSteps.forEach((item, index) => item.classList.toggle("active", index === step));
-  document.querySelectorAll(".step-indicator span").forEach((item, index) => item.classList.toggle("active", index <= step));
+  document.querySelectorAll(".step-indicator span").forEach((item, index) => {
+    item.classList.toggle("active", index <= step);
+    if (index === step) item.setAttribute("aria-current", "step");
+    else item.removeAttribute("aria-current");
+  });
 };
 document.querySelectorAll("[data-next-step]:not([data-submit-booking])").forEach((button) => button.addEventListener("click", () => {
   const step = bookingSteps[currentStep];
@@ -208,6 +212,7 @@ document.querySelector('[data-next-step][data-submit-booking]')?.addEventListene
   event.preventDefault();
   const button = event.currentTarget;
   button.disabled = true;
+  button.setAttribute("aria-busy", "true");
   button.textContent = "Sending request...";
   try {
     const response = await fetch("/api/appointments", {
@@ -223,6 +228,7 @@ document.querySelector('[data-next-step][data-submit-booking]')?.addEventListene
     const message = document.querySelector(".booking-error");
     if (message) message.textContent = error.message;
     button.disabled = false;
+    button.removeAttribute("aria-busy");
     button.textContent = "Review request →";
   }
 });
