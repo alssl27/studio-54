@@ -133,11 +133,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Progress:** Added `treatments`, active `stylists`, and `availability_slots` reads, database schema/indexes, dynamic booking choices, and explicit unavailable-storage messaging. Working hours and closure rules remain part of the future scheduling expansion.
 
 ### 9. Prevent duplicate and invalid bookings
-- [ ] **What:** Add transaction-safe conflict checks, database constraints, past-date checks, and business-rule validation.
+- [x] **What:** Add transaction-safe conflict checks, a database constraint, past-date checks, and availability validation.
 - **Why:** The current index does not prevent duplicate appointments.
 - **Files:** `db/schema.sql`, `server.js`.
 - **Expected result:** A slot can only be booked when it is valid and still free.
 - **Success test:** Concurrent and repeated booking attempts return one success and one clear conflict response.
+- **Progress:** Added an active-slot unique index, availability membership check, and explicit HTTP 409 responses for stale or concurrently claimed slots. Database-backed concurrency tests require a configured PostgreSQL environment.
 
 ### 10. Add confirmation and booking management states
 - [ ] **What:** Return a stable confirmation reference and implement requested/confirmed/cancelled handling.

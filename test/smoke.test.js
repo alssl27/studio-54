@@ -250,6 +250,26 @@ test("booking API reports unavailable storage clearly", async () => {
   });
 });
 
+test("booking API checks storage only after validating the appointment", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      treatment: "Signature cut",
+      stylist: "Amelia Rose",
+      appointmentDate: "2020-01-01",
+      appointmentTime: "10:00",
+      customerName: "Test User",
+      customerEmail: "test@example.com",
+    }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Please choose a future appointment date.",
+  });
+});
+
 test("contact API rejects incomplete enquiries", async () => {
   const response = await fetch(`${baseUrl}/api/contact`, {
     method: "POST",

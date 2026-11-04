@@ -119,6 +119,16 @@ app.post("/api/appointments", async (request, response) => {
   }
 
   try {
+    const availability = await pool.query(
+      `SELECT 1
+       FROM availability_slots
+       WHERE slot_date = $1 AND slot_time = $2 AND active = TRUE
+       LIMIT 1`,
+      [appointmentDate, appointmentTime],
+    );
+    if (availability.rowCount === 0) {
+      return response.status(409).json({ error: "That appointment time is no longer available." });
+    }
     const result = await pool.query(
       `INSERT INTO appointments
         (treatment, stylist, appointment_date, appointment_time, customer_name, customer_email)
@@ -128,6 +138,9 @@ app.post("/api/appointments", async (request, response) => {
     );
     return response.status(201).json({ appointment: result.rows[0] });
   } catch (error) {
+    if (error.code === "23505" && error.constraint === "appointments_active_slot_idx") {
+      return response.status(409).json({ error: "That appointment time has just been booked. Please choose another." });
+    }
     console.error("Appointment creation failed:", error);
     return response.status(500).json({ error: "The appointment could not be created." });
   }

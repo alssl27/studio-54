@@ -42,6 +42,10 @@ CREATE TABLE IF NOT EXISTS appointments (
 CREATE INDEX IF NOT EXISTS appointments_schedule_idx
   ON appointments (appointment_date, appointment_time);
 
+CREATE UNIQUE INDEX IF NOT EXISTS appointments_active_slot_idx
+  ON appointments (appointment_date, appointment_time)
+  WHERE status <> 'cancelled';
+
 CREATE TABLE IF NOT EXISTS contact_enquiries (
   id BIGSERIAL PRIMARY KEY,
   customer_name TEXT NOT NULL,
