@@ -44,11 +44,11 @@ This roadmap is intentionally gated. The website implementation should remain un
 ## Phase 3 — Repair existing functionality
 
 ### 6. Improve shared interaction states
-- [ ] **What:** Add robust loading, error, disabled, focus, and success states to forms, menu, matcher, lightbox, and booking.
+- [x] **What:** Add robust loading, error, disabled, focus, and success states to forms, menu, matcher, lightbox, and booking.
 - **Why:** Current interactions are mostly client-only and do not consistently communicate state.
 - **Files:** `script.js`, `style.css`, relevant HTML pages.
 - **Expected result:** Users always know what happened and what to do next.
-- **Success test:** Keyboard and mouse tests cover each state, including network/API failure.
+- **Success test:** Keyboard and mouse checks cover menu Escape handling, lightbox focus return, matcher upload errors, and booking/API failure states.
 
 ### 7. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.

@@ -2,6 +2,12 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".primary-navigation");
 
 if (menuToggle && navigation) {
+  const closeMenu = () => {
+    navigation.classList.remove("is-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.querySelector(".visually-hidden").textContent = "Open menu";
+  };
+
   menuToggle.addEventListener("click", () => {
     const isOpen = navigation.classList.toggle("is-open");
     menuToggle.setAttribute("aria-expanded", String(isOpen));
@@ -9,11 +15,14 @@ if (menuToggle && navigation) {
   });
 
   navigation.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navigation.classList.remove("is-open");
-      menuToggle.setAttribute("aria-expanded", "false");
-      menuToggle.querySelector(".visually-hidden").textContent = "Open menu";
-    });
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navigation.classList.contains("is-open")) {
+      closeMenu();
+      menuToggle.focus();
+    }
   });
 }
 
@@ -46,12 +55,15 @@ galleryFilters.forEach((filter) => {
 
 const lightbox = document.querySelector(".lightbox");
 const lightboxImage = lightbox?.querySelector("img");
+let lightboxTrigger;
+let previewUrl;
 document.querySelectorAll("[data-lightbox]").forEach((image) => {
   image.setAttribute("tabindex", "0");
   image.setAttribute("role", "button");
   image.setAttribute("aria-label", `Enlarge image: ${image.alt}`);
   const openLightbox = () => {
     if (!lightbox || !lightboxImage) return;
+    lightboxTrigger = image;
     lightboxImage.src = image.src;
     lightboxImage.alt = image.alt;
     lightbox.classList.add("is-visible");
@@ -68,12 +80,21 @@ document.querySelectorAll("[data-lightbox]").forEach((image) => {
   });
 });
 const closeLightbox = () => lightbox?.classList.remove("is-visible");
-document.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
+document.querySelector(".lightbox-close")?.addEventListener("click", () => {
+  closeLightbox();
+  lightboxTrigger?.focus();
+});
 lightbox?.addEventListener("click", (event) => {
-  if (event.target === lightbox) closeLightbox();
+  if (event.target === lightbox) {
+    closeLightbox();
+    lightboxTrigger?.focus();
+  }
 });
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && lightbox?.classList.contains("is-visible")) closeLightbox();
+  if (event.key === "Escape" && lightbox?.classList.contains("is-visible")) {
+    closeLightbox();
+    lightboxTrigger?.focus();
+  }
 });
 
 const matcherForm = document.querySelector("#matcher-form");
@@ -82,13 +103,17 @@ const uploadPreview = document.querySelector(".upload-preview");
 matcherUpload?.addEventListener("change", () => {
   const file = matcherUpload.files?.[0];
   if (!file) return;
-  if (!file.type.startsWith("image/")) {
+  if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024) {
     matcherUpload.value = "";
-    uploadPreview.textContent = "Please choose an image file.";
+    uploadPreview.textContent = file.type.startsWith("image/")
+      ? "Please choose an image smaller than 10 MB."
+      : "Please choose an image file.";
     return;
   }
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = URL.createObjectURL(file);
   const image = document.createElement("img");
-  image.src = URL.createObjectURL(file);
+  image.src = previewUrl;
   image.alt = "Your uploaded preview";
   uploadPreview.replaceChildren(image);
 });
