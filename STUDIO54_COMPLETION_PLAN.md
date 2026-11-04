@@ -24,6 +24,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Files:** `package.json`, new test files (scope to be approved).
 - **Expected result:** Page response, API validation, and core behavior can be checked consistently.
 - **Success test:** `npm test` passes locally and reports failures clearly.
+- **Progress:** Coverage now includes incomplete data, malformed email, malformed date/time, missing storage, all public page responses, and baseline security headers.
 
 ## Phase 2 — Complete missing page content
 

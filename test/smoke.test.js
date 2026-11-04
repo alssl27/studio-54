@@ -73,6 +73,46 @@ test("booking API rejects incomplete appointment data", async () => {
   });
 });
 
+test("booking API rejects malformed customer email", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      treatment: "Signature cut",
+      stylist: "Amelia Rose",
+      appointmentDate: "2026-11-10",
+      appointmentTime: "10:00",
+      customerName: "Test User",
+      customerEmail: "not-an-email",
+    }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Please provide a valid email address.",
+  });
+});
+
+test("booking API rejects malformed appointment date and time", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      treatment: "Signature cut",
+      stylist: "Amelia Rose",
+      appointmentDate: "10-11-2026",
+      appointmentTime: "ten",
+      customerName: "Test User",
+      customerEmail: "test@example.com",
+    }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Please provide a valid appointment date and time.",
+  });
+});
+
 test("booking API reports unavailable storage clearly", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",
