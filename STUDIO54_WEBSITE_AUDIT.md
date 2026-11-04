@@ -174,5 +174,6 @@ No admin page or authentication route exists in the current file inventory.
 - Gallery filters now expose pressed state, the lightbox keeps keyboard focus contained, and a reduced-motion media query is available.
 - Font loading is now consolidated: all pages use the same stylesheet link and `style.css` no longer imports fonts separately. Remote image hosting and production metadata remain open items.
 - The Express server now sends baseline `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and `Permissions-Policy` headers; a full CSP and deployment security review remain open.
+- All nine public pages now include a page-specific meta description; canonical, social sharing, structured data, and deployment metadata remain open.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
 - The approved baseline and encoding/navigation tasks changed only source-control/documentation setup and shared HTML markup; booking, matcher, and API behavior were not expanded.
