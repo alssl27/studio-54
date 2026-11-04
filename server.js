@@ -8,6 +8,13 @@ const port = Number(process.env.PORT) || 3000;
 const pool = process.env.DATABASE_URL ? new Pool({ connectionString: process.env.DATABASE_URL }) : null;
 
 app.use(express.json({ limit: "10kb" }));
+app.use((request, response, next) => {
+  response.setHeader("X-Content-Type-Options", "nosniff");
+  response.setHeader("X-Frame-Options", "DENY");
+  response.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  next();
+});
 app.use(express.static(__dirname));
 
 app.post("/api/appointments", async (request, response) => {

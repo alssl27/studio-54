@@ -51,6 +51,15 @@ test("all public pages load successfully", async () => {
   }
 });
 
+test("public responses include baseline security headers", async () => {
+  const response = await fetch(`${baseUrl}/index.html`);
+
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(response.headers.get("x-frame-options"), "DENY");
+  assert.equal(response.headers.get("referrer-policy"), "strict-origin-when-cross-origin");
+  assert.equal(response.headers.get("permissions-policy"), "camera=(), microphone=(), geolocation=()");
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",
