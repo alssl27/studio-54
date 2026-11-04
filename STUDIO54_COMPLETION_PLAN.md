@@ -50,7 +50,14 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Users always know what happened and what to do next.
 - **Success test:** Keyboard and mouse checks cover menu Escape handling, lightbox focus return, matcher upload errors, and booking/API failure states.
 
-### 7. Complete the contact workflow
+### 7. Repair homepage call-to-action destinations
+- [x] **What:** Point service, matcher, gallery, and salon-story homepage links to their corresponding public pages.
+- **Why:** Several links incorrectly sent visitors to the booking anchor instead of the content they promised.
+- **Files:** `index.html`.
+- **Expected result:** Homepage calls-to-action lead to the relevant page and booking remains available through the dedicated booking links.
+- **Success test:** Browser navigation from each corrected CTA reaches the expected page with HTTP 200.
+
+### 8. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.
 - **Files:** `contact.html`, `script.js`, `server.js`, `db/schema.sql` if persistence is approved.
@@ -59,7 +66,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 
 ## Phase 4 — Finish the appointment booking system
 
-### 8. Add database-backed services, stylists, and availability
+### 9. Add database-backed services, stylists, and availability
 - [ ] **What:** Add API reads for active services, stylists, working hours, closures, and available slots.
 - **Why:** Static choices do not represent real availability.
 - **Files:** `db/schema.sql`, `server.js`, `booking.html`, `script.js`.
