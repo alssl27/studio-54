@@ -141,11 +141,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Progress:** Added an active-slot unique index, availability membership check, and explicit HTTP 409 responses for stale or concurrently claimed slots. Database-backed concurrency tests require a configured PostgreSQL environment.
 
 ### 10. Add confirmation and booking management states
-- [ ] **What:** Return a stable confirmation reference and implement requested/confirmed/cancelled handling.
+- [x] **What:** Return a stable confirmation reference and expose requested/confirmed/cancelled status handling.
 - **Why:** The current “request received” message does not confirm availability or provide a useful reference.
 - **Files:** `booking.html`, `script.js`, `server.js`, `db/schema.sql`.
 - **Expected result:** Customers receive an accurate state and reference; staff can update it.
 - **Success test:** A full booking request can be traced from submission through status change.
+- **Progress:** Appointments now receive a unique `ST54-XXXXXXXX` reference and return their current status, date, and time. The customer confirmation step distinguishes a pending request from confirmed availability; staff status-management UI remains part of the future admin surface.
 
 ## Phase 5 — Complete planned AI and staff features
 

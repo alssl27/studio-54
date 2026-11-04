@@ -61,7 +61,7 @@ All nine pages were opened through the running Express server and returned HTTP 
 1. **Booking storage is not configured by default.** `server.js` returns HTTP 503 when `DATABASE_URL` is absent. The live probe confirmed this behavior.
 2. **Booking availability requires configured scheduling data.** The booking UI now reads services, active stylists, and date-specific slots from the API; without database configuration it clearly reports that booking data is unavailable.
 3. **Booking conflicts are now blocked at the API and database layers.** Active appointments use a unique date/time index, and stale availability requests return a conflict response.
-4. **No confirmed booking lifecycle exists.** The UI sends a request and displays “request received”; there is no confirmation email, staff workflow, cancellation, rescheduling, or status management.
+4. **Booking lifecycle is request-based pending staff operations.** New appointments now receive a stable reference and status; confirmation email, cancellation, rescheduling, and staff status management remain future operational work.
 5. **The matcher is a demonstration, not an AI hairstyle matcher.** `matcher.html` and `script.js` explicitly state that no AI analysis takes place.
 
 ### Medium priority

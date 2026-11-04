@@ -1,4 +1,5 @@
 const path = require("node:path");
+const { randomBytes } = require("node:crypto");
 const express = require("express");
 const { Pool } = require("pg");
 require("dotenv").config();
@@ -129,12 +130,13 @@ app.post("/api/appointments", async (request, response) => {
     if (availability.rowCount === 0) {
       return response.status(409).json({ error: "That appointment time is no longer available." });
     }
+    const confirmationReference = `ST54-${randomBytes(4).toString("hex").toUpperCase()}`;
     const result = await pool.query(
       `INSERT INTO appointments
-        (treatment, stylist, appointment_date, appointment_time, customer_name, customer_email)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING id, appointment_date, appointment_time`,
-      values,
+        (treatment, stylist, appointment_date, appointment_time, customer_name, customer_email, confirmation_reference)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING confirmation_reference, status, appointment_date, appointment_time`,
+      [...values, confirmationReference],
     );
     return response.status(201).json({ appointment: result.rows[0] });
   } catch (error) {

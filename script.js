@@ -290,6 +290,18 @@ document.querySelector('[data-next-step][data-submit-booking]')?.addEventListene
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "The appointment could not be created.");
+    const confirmationStep = bookingSteps[currentStep + 1];
+    const confirmationMessage = confirmationStep?.querySelector("p:last-of-type");
+    if (confirmationMessage) {
+      confirmationMessage.textContent = `Your request is pending confirmation from the house. Reference: ${result.appointment.confirmation_reference}.`;
+    }
+    if (confirmationStep && !confirmationStep.querySelector(".confirmation-reference")) {
+      const reference = document.createElement("p");
+      reference.className = "confirmation-reference";
+      reference.setAttribute("role", "status");
+      reference.textContent = `Status: ${result.appointment.status}.`;
+      confirmationStep.querySelector("h2")?.after(reference);
+    }
     currentStep += 1;
     showBookingStep(currentStep);
   } catch (error) {

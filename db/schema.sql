@@ -35,9 +35,17 @@ CREATE TABLE IF NOT EXISTS appointments (
   appointment_time TIME NOT NULL,
   customer_name TEXT NOT NULL,
   customer_email TEXT NOT NULL,
+  confirmation_reference TEXT NOT NULL UNIQUE,
   status TEXT NOT NULL DEFAULT 'requested' CHECK (status IN ('requested', 'confirmed', 'cancelled')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE appointments
+  ADD COLUMN IF NOT EXISTS confirmation_reference TEXT;
+
+CREATE UNIQUE INDEX IF NOT EXISTS appointments_confirmation_reference_idx
+  ON appointments (confirmation_reference)
+  WHERE confirmation_reference IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS appointments_schedule_idx
   ON appointments (appointment_date, appointment_time);
