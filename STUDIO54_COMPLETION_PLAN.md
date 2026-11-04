@@ -139,6 +139,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - [ ] **What:** Add image dimensions/responsive sources, reduce third-party dependence, consolidate font loading, and improve page metadata/security headers.
 - **Progress:** Font loading has been consolidated to one shared Google Fonts stylesheet per page, and all public pages now have page-specific meta descriptions; image hosting and richer metadata remain.
 - **Progress:** Baseline `nosniff`, clickjacking, referrer, and permissions headers are now sent by the Express server.
+- **Progress:** The local hero asset now declares intrinsic dimensions and asynchronous decoding to reduce layout shift.
 - **Why:** Remote images and duplicate font declarations can affect loading and layout stability.
 - **Files:** HTML pages, `style.css`, `server.js`, `assets/`.
 - **Expected result:** Faster, more stable, shareable pages with safer delivery defaults.
