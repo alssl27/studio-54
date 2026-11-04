@@ -47,7 +47,10 @@ test("all public pages load successfully", async () => {
   for (const page of pages) {
     const response = await fetch(`${baseUrl}/${page}`);
     assert.equal(response.status, 200, `${page} should return HTTP 200`);
-    assert.match(await response.text(), /<main\b/i, `${page} should contain a main landmark`);
+    const markup = await response.text();
+    assert.match(markup, /<main\b/i, `${page} should contain a main landmark`);
+    assert.match(markup, /property="og:title"/i, `${page} should include an Open Graph title`);
+    assert.match(markup, /name="twitter:card"/i, `${page} should include a Twitter card`);
   }
 });
 
