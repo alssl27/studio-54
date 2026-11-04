@@ -27,7 +27,14 @@ app.post("/api/appointments", async (request, response) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
     return response.status(400).json({ error: "Please provide a valid email address." });
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(appointmentDate) || !/^\d{2}:\d{2}$/.test(appointmentTime)) {
+  const dateParts = appointmentDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const timeParts = appointmentTime.match(/^(\d{2}):(\d{2})$/);
+  const validDate = dateParts
+    && new Date(Date.UTC(Number(dateParts[1]), Number(dateParts[2]) - 1, Number(dateParts[3]))).toISOString().slice(0, 10) === appointmentDate;
+  const validTime = timeParts
+    && Number(timeParts[1]) <= 23
+    && Number(timeParts[2]) <= 59;
+  if (!validDate || !validTime) {
     return response.status(400).json({ error: "Please provide a valid appointment date and time." });
   }
   if (!pool) {

@@ -79,6 +79,13 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** The active step is announced and the submit request communicates its in-progress state.
 - **Success test:** Browser checks confirm `aria-current` moves with the step and `aria-busy` is applied during submission.
 
+### 10a. Tighten appointment date and time validation
+- [x] **What:** Reject impossible calendar dates and out-of-range 24-hour times at the API boundary.
+- **Why:** Regex-only validation accepts values that look shaped correctly but cannot represent real appointments.
+- **Files:** `server.js`, `test/smoke.test.js`.
+- **Expected result:** Invalid calendar/time values return the same clear 400 validation response.
+- **Success test:** Regression tests cover malformed and impossible date/time values.
+
 ### 11. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.

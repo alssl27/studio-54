@@ -113,6 +113,26 @@ test("booking API rejects malformed appointment date and time", async () => {
   });
 });
 
+test("booking API rejects impossible calendar dates and times", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      treatment: "Signature cut",
+      stylist: "Amelia Rose",
+      appointmentDate: "2026-02-30",
+      appointmentTime: "24:00",
+      customerName: "Test User",
+      customerEmail: "test@example.com",
+    }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Please provide a valid appointment date and time.",
+  });
+});
+
 test("booking API reports unavailable storage clearly", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",
