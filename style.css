@@ -148,6 +148,15 @@ h1 em, h2 em { font-style: normal; }
 .matcher-panel, .contact-form { padding: 35px; background: rgba(255,255,255,.45); }
 .matcher-panel label, .contact-form label { display: block; margin: 20px 0 8px; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .matcher-panel select, .matcher-panel input, .matcher-panel textarea, .contact-form input, .contact-form textarea { width: 100%; border: 1px solid rgba(0,0,0,.35); padding: 13px; outline: 0; color: var(--ink); background: rgba(255,255,255,.55); }
+.matcher-panel select:focus-visible, .matcher-panel input:focus-visible, .matcher-panel textarea:focus-visible, .contact-form input:focus-visible, .contact-form textarea:focus-visible, .booking-step input:focus-visible {
+  border-color: var(--black);
+  box-shadow: 0 0 0 3px rgba(33,29,34,.18);
+  outline: 2px solid var(--black);
+  outline-offset: 2px;
+}
+.matcher-panel input:user-invalid, .matcher-panel select:user-invalid, .contact-form input:user-invalid, .contact-form textarea:user-invalid, .booking-step input:user-invalid {
+  border-color: #9c2431;
+}
 .matcher-panel textarea, .contact-form textarea { min-height: 100px; resize: vertical; }
 .matcher-panel .button, .contact-form .button { margin-top: 25px; }
 .upload-preview { display: grid; min-height: 270px; place-items: center; border: 1px dashed rgba(0,0,0,.4); text-align: center; }
@@ -167,6 +176,7 @@ h1 em, h2 em { font-style: normal; }
 .choice strong { display: block; font-family: var(--display); font-size: 20px; font-weight: 700; }
 .choice small { font-size: 10px; }
 .choice.selected { border-color: var(--black); background: var(--white); }
+.choice:focus-visible { border-color: var(--black); box-shadow: 0 0 0 3px rgba(33,29,34,.18); }
 .step-actions { display: flex; justify-content: space-between; margin-top: 35px; }
 .info-list { padding: 0; list-style: none; }
 .info-list li { padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,.25); }

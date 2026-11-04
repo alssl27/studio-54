@@ -57,7 +57,14 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Homepage calls-to-action lead to the relevant page and booking remains available through the dedicated booking links.
 - **Success test:** Browser navigation from each corrected CTA reaches the expected page with HTTP 200.
 
-### 8. Complete the contact workflow
+### 8. Polish form focus and validation states
+- [x] **What:** Add visible focus rings and invalid-field styling to shared form controls and booking choices.
+- **Why:** Keyboard and validation feedback should remain clear across all customer journeys.
+- **Files:** `style.css`.
+- **Expected result:** Focused controls and invalid values are visually distinct without changing submission behavior.
+- **Success test:** Keyboard focus is visible in browser checks and existing smoke/API tests remain green.
+
+### 9. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.
 - **Files:** `contact.html`, `script.js`, `server.js`, `db/schema.sql` if persistence is approved.
@@ -66,7 +73,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 
 ## Phase 4 — Finish the appointment booking system
 
-### 9. Add database-backed services, stylists, and availability
+### 10. Add database-backed services, stylists, and availability
 - [ ] **What:** Add API reads for active services, stylists, working hours, closures, and available slots.
 - **Why:** Static choices do not represent real availability.
 - **Files:** `db/schema.sql`, `server.js`, `booking.html`, `script.js`.
