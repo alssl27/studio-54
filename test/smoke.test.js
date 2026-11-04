@@ -153,6 +153,26 @@ test("booking API rejects past appointment dates", async () => {
   });
 });
 
+test("booking API rejects oversized customer fields", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      treatment: "Signature cut",
+      stylist: "Amelia Rose",
+      appointmentDate: "2026-11-10",
+      appointmentTime: "10:00",
+      customerName: "x".repeat(121),
+      customerEmail: "test@example.com",
+    }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Appointment details are too long.",
+  });
+});
+
 test("booking API reports unavailable storage clearly", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",

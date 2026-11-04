@@ -93,6 +93,13 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Past appointment dates return a clear 400 response before storage is attempted.
 - **Success test:** Regression coverage verifies a past date is rejected.
 
+### 10c. Limit appointment field sizes
+- [x] **What:** Reject oversized appointment text fields before validation or database work.
+- **Why:** Request-body limits alone do not prevent unbounded individual field values.
+- **Files:** `server.js`, `test/smoke.test.js`.
+- **Expected result:** Oversized customer-facing fields return a clear 400 response.
+- **Success test:** Regression coverage verifies an oversized customer name is rejected.
+
 ### 11. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.

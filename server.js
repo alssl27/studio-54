@@ -24,6 +24,9 @@ app.post("/api/appointments", async (request, response) => {
   if (values.some((value) => typeof value !== "string" || value.trim() === "")) {
     return response.status(400).json({ error: "All appointment fields are required." });
   }
+  if (treatment.length > 120 || stylist.length > 120 || customerName.length > 120 || customerEmail.length > 254) {
+    return response.status(400).json({ error: "Appointment details are too long." });
+  }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
     return response.status(400).json({ error: "Please provide a valid email address." });
   }
