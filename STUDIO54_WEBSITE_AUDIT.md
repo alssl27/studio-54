@@ -172,5 +172,6 @@ No admin page or authentication route exists in the current file inventory.
 - `npm test` now provides dependency-free smoke coverage for all public pages and the documented booking API validation/storage states.
 - Shared interaction handling now returns focus after closing the menu/lightbox, rejects matcher images over 10 MB, and revokes replaced preview object URLs.
 - Gallery filters now expose pressed state, the lightbox keeps keyboard focus contained, and a reduced-motion media query is available.
+- Font loading is now consolidated: all pages use the same stylesheet link and `style.css` no longer imports fonts separately. Remote image hosting and production metadata remain open items.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
 - The approved baseline and encoding/navigation tasks changed only source-control/documentation setup and shared HTML markup; booking, matcher, and API behavior were not expanded.
