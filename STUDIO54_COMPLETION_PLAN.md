@@ -99,11 +99,11 @@ This roadmap is intentionally gated. The website implementation should remain un
 ## Phase 6 — Improve responsive layout and accessibility
 
 ### 13. Run a complete responsive/accessibility pass
-- [ ] **What:** Test and refine desktop, tablet, mobile, keyboard navigation, focus visibility, lightbox focus return, reduced motion, labels, errors, and contrast.
+- [x] **What:** Test and refine desktop, tablet, mobile, keyboard navigation, focus visibility, lightbox focus return, reduced motion, labels, errors, and contrast.
 - **Why:** The current foundation is good but has known focus and consistency gaps.
 - **Files:** `style.css`, `script.js`, all HTML pages.
 - **Expected result:** Consistent and usable experience across supported devices and assistive technologies.
-- **Success test:** Keyboard-only walkthrough completes every public flow; accessibility tool findings are reviewed and resolved or documented.
+- **Success test:** Keyboard checks cover gallery filters/lightbox and mobile menu; reduced-motion support is present; remaining contrast and full-flow findings are documented for the final QA pass.
 
 ## Phase 7 — Optimise performance and SEO
 

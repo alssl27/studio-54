@@ -45,6 +45,7 @@ const galleryItems = document.querySelectorAll("[data-category]");
 galleryFilters.forEach((filter) => {
   filter.addEventListener("click", () => {
     galleryFilters.forEach((item) => item.classList.remove("active"));
+    galleryFilters.forEach((item) => item.setAttribute("aria-pressed", String(item === filter)));
     filter.classList.add("active");
     const category = filter.dataset.filter;
     galleryItems.forEach((item) => {
@@ -94,6 +95,10 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && lightbox?.classList.contains("is-visible")) {
     closeLightbox();
     lightboxTrigger?.focus();
+  }
+  if (event.key === "Tab" && lightbox?.classList.contains("is-visible")) {
+    event.preventDefault();
+    lightbox.querySelector(".lightbox-close")?.focus();
   }
 });
 

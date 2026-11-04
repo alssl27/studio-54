@@ -183,6 +183,16 @@ h1 em, h2 em { font-style: normal; }
 .resource-card img { height: 230px; margin: -28px -28px 25px; width: calc(100% + 56px); object-fit: cover; }
 [hidden] { display: none !important; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 @media (max-width: 900px) {
   .container { width: min(100% - 48px, 650px); }
   .header-inner { display: flex; justify-content: space-between; }
