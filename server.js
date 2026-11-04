@@ -15,6 +15,12 @@ app.use((request, response, next) => {
   response.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   next();
 });
+app.use((error, request, response, next) => {
+  if (error instanceof SyntaxError && request.path === "/api/appointments") {
+    return response.status(400).json({ error: "Request body must be valid JSON." });
+  }
+  return next(error);
+});
 app.use(express.static(__dirname));
 
 app.post("/api/appointments", async (request, response) => {

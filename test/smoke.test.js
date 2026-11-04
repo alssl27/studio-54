@@ -86,6 +86,19 @@ test("booking API rejects array JSON bodies", async () => {
   });
 });
 
+test("booking API reports malformed JSON as JSON", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: "{\"treatment\":",
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Request body must be valid JSON.",
+  });
+});
+
 test("booking API rejects malformed customer email", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",

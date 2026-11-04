@@ -107,6 +107,13 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Non-object bodies return the required-fields 400 response without a server exception.
 - **Success test:** Regression coverage verifies a JSON array body is rejected.
 
+### 10e. Normalize malformed appointment JSON errors
+- [x] **What:** Return a JSON 400 response when the appointment endpoint receives malformed JSON.
+- **Why:** API consumers should receive a consistent machine-readable error instead of Express’s HTML parser page.
+- **Files:** `server.js`, `test/smoke.test.js`.
+- **Expected result:** Malformed appointment JSON produces a clear JSON error without affecting valid requests.
+- **Success test:** Regression coverage verifies malformed JSON returns HTTP 400 and the documented error shape.
+
 ### 11. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.
