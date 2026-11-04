@@ -233,8 +233,27 @@ document.querySelector('[data-next-step][data-submit-booking]')?.addEventListene
   }
 });
 
-document.querySelectorAll(".contact-form").forEach((form) => form.addEventListener("submit", (event) => {
+document.querySelectorAll(".contact-form").forEach((form) => form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  form.querySelector(".form-status").textContent = "Thank you. We will be in touch shortly.";
-  form.reset();
+  const button = form.querySelector("button[type='submit']");
+  const status = form.querySelector(".form-status");
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  status.textContent = "Sending your enquiry...";
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "The enquiry could not be sent.");
+    status.textContent = "Thank you. We will be in touch shortly.";
+    form.reset();
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    button.disabled = false;
+    button.removeAttribute("aria-busy");
+  }
 }));

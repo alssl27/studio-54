@@ -29,3 +29,15 @@ CREATE TABLE IF NOT EXISTS appointments (
 
 CREATE INDEX IF NOT EXISTS appointments_schedule_idx
   ON appointments (appointment_date, appointment_time);
+
+CREATE TABLE IF NOT EXISTS contact_enquiries (
+  id BIGSERIAL PRIMARY KEY,
+  customer_name TEXT NOT NULL,
+  customer_email TEXT NOT NULL,
+  message TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'read', 'resolved')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS contact_enquiries_created_idx
+  ON contact_enquiries (created_at DESC);

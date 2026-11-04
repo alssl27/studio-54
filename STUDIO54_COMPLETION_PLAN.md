@@ -115,11 +115,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Success test:** Regression coverage verifies malformed JSON returns HTTP 400 and the documented error shape.
 
 ### 11. Complete the contact workflow
-- [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
-- **Why:** The current contact form only resets locally and does not contact the salon.
+- [x] **What:** Add a server-side contact endpoint with validation and PostgreSQL persistence.
+- **Why:** Enquiries need a reliable server-side path and must not show success when storage is unavailable.
 - **Files:** `contact.html`, `script.js`, `server.js`, `db/schema.sql` if persistence is approved.
 - **Expected result:** Enquiries are safely accepted, acknowledged, and operationally retrievable.
 - **Success test:** Valid and invalid requests produce correct responses; no success is shown when delivery fails.
+- **Progress:** Added `POST /api/contact`, field/email/length validation, a `contact_enquiries` table, and client-side busy/error states. Missing `DATABASE_URL` returns an explicit 503.
 
 ## Phase 4 — Finish the appointment booking system
 

@@ -20,7 +20,7 @@ app.use((request, response, next) => {
   next();
 });
 app.use((error, request, response, next) => {
-  if (error instanceof SyntaxError && request.path === "/api/appointments") {
+  if (error instanceof SyntaxError && ["/api/appointments", "/api/contact"].includes(request.path)) {
     return response.status(400).json({ error: "Request body must be valid JSON." });
   }
   return next(error);
@@ -73,6 +73,38 @@ app.post("/api/appointments", async (request, response) => {
   } catch (error) {
     console.error("Appointment creation failed:", error);
     return response.status(500).json({ error: "The appointment could not be created." });
+  }
+});
+
+app.post("/api/contact", async (request, response) => {
+  if (!request.body || typeof request.body !== "object" || Array.isArray(request.body)) {
+    return response.status(400).json({ error: "Name, email, and message are required." });
+  }
+  const { name, email, message } = request.body;
+  if ([name, email, message].some((value) => typeof value !== "string" || value.trim() === "")) {
+    return response.status(400).json({ error: "Name, email, and message are required." });
+  }
+  if (name.length > 120 || email.length > 254 || message.length > 2000) {
+    return response.status(400).json({ error: "Your enquiry is too long." });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return response.status(400).json({ error: "Please provide a valid email address." });
+  }
+  if (!pool) {
+    return response.status(503).json({ error: "Enquiry storage is not configured. Add DATABASE_URL to .env." });
+  }
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO contact_enquiries (customer_name, customer_email, message)
+       VALUES ($1, $2, $3)
+       RETURNING id, created_at`,
+      [name.trim(), email.trim(), message.trim()],
+    );
+    return response.status(201).json({ enquiry: result.rows[0] });
+  } catch (error) {
+    console.error("Contact enquiry creation failed:", error);
+    return response.status(500).json({ error: "The enquiry could not be sent." });
   }
 });
 

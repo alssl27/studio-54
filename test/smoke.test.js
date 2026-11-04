@@ -221,3 +221,50 @@ test("booking API reports unavailable storage clearly", async () => {
     error: "Booking storage is not configured. Add DATABASE_URL to .env.",
   });
 });
+
+test("contact API rejects incomplete enquiries", async () => {
+  const response = await fetch(`${baseUrl}/api/contact`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ name: "Test User" }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Name, email, and message are required.",
+  });
+});
+
+test("contact API rejects malformed email", async () => {
+  const response = await fetch(`${baseUrl}/api/contact`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      name: "Test User",
+      email: "not-an-email",
+      message: "I would like to ask a question.",
+    }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Please provide a valid email address.",
+  });
+});
+
+test("contact API reports unavailable storage clearly", async () => {
+  const response = await fetch(`${baseUrl}/api/contact`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      name: "Test User",
+      email: "test@example.com",
+      message: "I would like to ask a question.",
+    }),
+  });
+
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), {
+    error: "Enquiry storage is not configured. Add DATABASE_URL to .env.",
+  });
+});

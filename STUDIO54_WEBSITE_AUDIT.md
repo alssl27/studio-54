@@ -33,7 +33,7 @@ The project folder is **not a Git repository** (`git status` returns “not a gi
 | `matcher.html` | Photo upload and style recommendation demo | Present; not AI-powered |
 | `booking.html` | Four-step appointment request flow | Present; availability and choices are static |
 | `about.html` | Salon story and team | Present; fictional content |
-| `contact.html` | Contact details and enquiry form | Present; client-only success state |
+| `contact.html` | Contact details and enquiry form | Present; submits to the validated contact API |
 | `products.html` | Product editorial cards | Present; no commerce or stock workflow |
 | `tutorials.html` | Editorial tutorial cards | Present; content is static |
 
@@ -66,7 +66,7 @@ All nine pages were opened through the running Express server and returned HTTP 
 
 ### Medium priority
 
-6. Contact form submission is client-only and does not send or persist an enquiry.
+6. Contact enquiries now persist through `POST /api/contact` when database storage is configured.
 7. Treatments and stylists are stored in the database but public services and booking choices are duplicated as hard-coded HTML.
 8. The footer and branding are not fully consistent across pages; some pages still use the older `studio 54` brand markup while the homepage has the newer lockup.
 9. Page content, prices, team data, products, and tutorials are static and cannot be managed without editing files.
@@ -99,7 +99,7 @@ No admin page or authentication route exists in the current file inventory.
 | High | Booking UI submits fictional availability | `booking.html`, `script.js`, `server.js` | Replace hard-coded slots with availability API calls and server-side validation |
 | High | No authentication or authorization for staff features | No current implementation | Add a separately scoped staff surface with secure password/session handling |
 | High | Matcher claims a guided result but performs no analysis | `matcher.html`, `script.js` | Either integrate an approved analysis service with privacy controls or label it permanently as a non-AI consultation tool |
-| Medium | Contact form success is not persisted or sent | `contact.html`, `script.js`, `server.js` | Add a validated contact endpoint and explicit delivery/persistence behavior |
+| Medium | Contact enquiry delivery depends on configured database storage | `contact.html`, `script.js`, `server.js`, `db/schema.sql` | Configure `DATABASE_URL` and operationally monitor persisted enquiries |
 | Medium | Character encoding is visibly corrupted in several pages (`â€™`, `â†’`, `Â£`, `Ã—`) | `index.html`, `about.html`, `booking.html`, `contact.html`, `gallery.html`, `services.html`, `matcher.html` | Normalise files to UTF-8 and replace corrupted entities with valid HTML entities or UTF-8 characters |
 | Medium | Shared header/footer markup has drifted between pages | All HTML pages | Extract a rendering strategy or apply a controlled shared navigation update |
 | Low | Remote Unsplash images create third-party availability and privacy/performance dependency | Most HTML pages | Optimise and self-host approved production imagery, with responsive `srcset`/dimensions |
