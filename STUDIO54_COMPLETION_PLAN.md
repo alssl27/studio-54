@@ -19,11 +19,11 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Success test:** Search finds no `â`, `Â`, or `Ã`; every page has the same navigation labels and keyboard/mobile behavior.
 
 ### 3. Add baseline automated checks
-- [ ] **What:** Add lightweight smoke/API tests and a validation script without changing runtime behavior.
+- [x] **What:** Add lightweight smoke/API tests and a validation script without changing runtime behavior.
 - **Why:** The project currently has no repeatable regression check.
 - **Files:** `package.json`, new test files (scope to be approved).
 - **Expected result:** Page response, API validation, and core behavior can be checked consistently.
-- **Success test:** The test command passes locally and reports failures clearly.
+- **Success test:** `npm test` passes locally and reports failures clearly.
 
 ## Phase 2 — Complete missing page content
 

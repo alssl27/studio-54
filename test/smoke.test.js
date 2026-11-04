@@ -1,0 +1,85 @@
+const { spawn } = require("node:child_process");
+const { once } = require("node:events");
+const path = require("node:path");
+const { after, before, test } = require("node:test");
+const assert = require("node:assert/strict");
+
+const port = 3100 + Math.floor(Math.random() * 500);
+const baseUrl = `http://127.0.0.1:${port}`;
+let server;
+
+before(async () => {
+  server = spawn(process.execPath, [path.join(__dirname, "..", "server.js")], {
+    cwd: path.join(__dirname, ".."),
+    env: { ...process.env, PORT: String(port), DATABASE_URL: "" },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  const startupError = new Promise((_, reject) => {
+    server.stderr.once("data", (chunk) => reject(new Error(chunk.toString())));
+  });
+  const startupOutput = new Promise((resolve) => {
+    server.stdout.once("data", (chunk) => resolve(chunk.toString()));
+  });
+
+  await Promise.race([startupError, startupOutput]);
+});
+
+after(async () => {
+  if (!server) return;
+  server.kill();
+  await once(server, "close");
+});
+
+test("all public pages load successfully", async () => {
+  const pages = [
+    "index.html",
+    "services.html",
+    "gallery.html",
+    "matcher.html",
+    "booking.html",
+    "about.html",
+    "contact.html",
+    "products.html",
+    "tutorials.html",
+  ];
+
+  for (const page of pages) {
+    const response = await fetch(`${baseUrl}/${page}`);
+    assert.equal(response.status, 200, `${page} should return HTTP 200`);
+    assert.match(await response.text(), /<main\b/i, `${page} should contain a main landmark`);
+  }
+});
+
+test("booking API rejects incomplete appointment data", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({}),
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "All appointment fields are required.",
+  });
+});
+
+test("booking API reports unavailable storage clearly", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      treatment: "Signature cut",
+      stylist: "Amelia Rose",
+      appointmentDate: "2026-11-10",
+      appointmentTime: "10:00",
+      customerName: "Test User",
+      customerEmail: "test@example.com",
+    }),
+  });
+
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), {
+    error: "Booking storage is not configured. Add DATABASE_URL to .env.",
+  });
+});

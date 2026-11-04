@@ -25,6 +25,14 @@ npm start
 
 Open <http://localhost:3000>.
 
+Run smoke tests:
+
+```powershell
+npm test
+```
+
+The current tests intentionally verify the documented no-database behavior. Booking persistence tests require a configured PostgreSQL database.
+
 ## Project structure
 
 - `index.html` — homepage
