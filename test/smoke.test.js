@@ -58,6 +58,9 @@ test("public responses include baseline security headers", async () => {
   assert.equal(response.headers.get("x-frame-options"), "DENY");
   assert.equal(response.headers.get("referrer-policy"), "strict-origin-when-cross-origin");
   assert.equal(response.headers.get("permissions-policy"), "camera=(), microphone=(), geolocation=()");
+  assert.match(response.headers.get("content-security-policy"), /default-src 'self'/);
+  assert.match(response.headers.get("content-security-policy"), /script-src 'self'/);
+  assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
 });
 
 test("booking API rejects incomplete appointment data", async () => {

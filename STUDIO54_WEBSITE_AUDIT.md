@@ -183,7 +183,7 @@ No admin page or authentication route exists in the current file inventory.
 - Booking progress now exposes the current step, the active step region is live, and API submission exposes an accessible busy state.
 - Gallery filters now expose pressed state, the lightbox keeps keyboard focus contained, and a reduced-motion media query is available.
 - Font loading is now consolidated: all pages use the same stylesheet link and `style.css` no longer imports fonts separately. Remote image hosting and production metadata remain open items.
-- The Express server now sends baseline `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and `Permissions-Policy` headers; a full CSP and deployment security review remain open.
+- The Express server now sends baseline security headers plus a resource-scoped Content Security Policy; deployment security review remains open.
 - All nine public pages now include a page-specific meta description; canonical, social sharing, structured data, and deployment metadata remain open.
 - The local hero image now declares its 828×768 intrinsic dimensions and uses asynchronous decoding; remote image optimization remains open.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
