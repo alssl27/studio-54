@@ -7,7 +7,7 @@
 
 STUDIO 54 is a small, server-rendered/static HTML salon site with a shared CSS file, one shared browser JavaScript file, an Express server, and a PostgreSQL schema. The public-facing experience is present across the planned marketing pages and has a coherent editorial salon direction. The current implementation is best described as a polished prototype rather than a production booking platform: the booking UI is multi-step, but availability is hard-coded and the API cannot be used without database configuration; the AI matcher is explicitly a local demonstration; and no staff administration or authentication surface exists.
 
-The visual refresh already present in the working files has been preserved for this audit. No website implementation files were changed as part of this audit.
+The visual refresh already present in the working files has been preserved. The audit was initially read-only; the separately approved baseline and encoding/navigation tasks have since been completed and are recorded in the completion plan.
 
 ## 1. Project overview and technology stack
 
@@ -149,7 +149,7 @@ No admin page or authentication route exists in the current file inventory.
 
 ## 10. Prioritised project completion checklist
 
-- [ ] **Critical:** Establish Git/source control and capture a baseline.
+- [x] **Critical:** Establish Git/source control and capture a baseline.
 - [ ] **Critical:** Configure and migrate PostgreSQL safely.
 - [ ] **High:** Replace hard-coded booking availability with a validated API.
 - [ ] **High:** Prevent duplicate/conflicting bookings.
@@ -157,7 +157,7 @@ No admin page or authentication route exists in the current file inventory.
 - [ ] **High:** Decide and implement the matcher scope with privacy controls.
 - [ ] **High:** Define and implement secure staff authentication/authorisation.
 - [ ] **Medium:** Add staff management for services, stylists, availability, bookings, and gallery content.
-- [ ] **Medium:** Repair encoding and unify shared branding/navigation/footer.
+- [x] **Medium:** Repair encoding and unify shared branding/navigation/footer.
 - [ ] **Medium:** Implement server-side contact enquiries.
 - [ ] **Medium:** Add automated tests, linting, and accessibility checks.
 - [ ] **Low:** Optimise/self-host production images and consolidate font loading.
@@ -168,5 +168,6 @@ No admin page or authentication route exists in the current file inventory.
 - `node --check script.js` and `node --check server.js` completed successfully.
 - Each of the nine HTML pages returned HTTP 200 through the running local Express server.
 - A valid-shaped appointment POST returned the expected HTTP 503 because database storage is not configured in the current environment.
+- All nine pages now expose the same primary and secondary navigation labels, and malformed encoding sequences were removed from the HTML files.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
-- No code, configuration, or website behavior was changed for this audit; only the requested audit documents are being added.
+- The approved baseline and encoding/navigation tasks changed only source-control/documentation setup and shared HTML markup; booking, matcher, and API behavior were not expanded.
