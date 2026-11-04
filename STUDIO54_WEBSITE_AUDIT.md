@@ -173,6 +173,7 @@ No admin page or authentication route exists in the current file inventory.
 - Shared interaction handling now returns focus after closing the menu/lightbox, rejects matcher images over 10 MB, and revokes replaced preview object URLs.
 - Homepage service, matcher, gallery, and salon-story CTAs now point to their corresponding pages instead of incorrectly targeting the booking anchor.
 - Shared form controls now expose stronger visible focus rings and invalid-field styling without changing validation behavior.
+- The matcher demonstration now announces recommendation feedback, requires style notes before showing a result, and releases temporary preview URLs on page unload.
 - Gallery filters now expose pressed state, the lightbox keeps keyboard focus contained, and a reduced-motion media query is available.
 - Font loading is now consolidated: all pages use the same stylesheet link and `style.css` no longer imports fonts separately. Remote image hosting and production metadata remain open items.
 - The Express server now sends baseline `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and `Permissions-Policy` headers; a full CSP and deployment security review remain open.

@@ -64,7 +64,14 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Focused controls and invalid values are visually distinct without changing submission behavior.
 - **Success test:** Keyboard focus is visible in browser checks and existing smoke/API tests remain green.
 
-### 9. Complete the contact workflow
+### 9. Improve matcher feedback and local preview cleanup
+- [x] **What:** Add live recommendation semantics, required guidance for matcher notes, and preview URL cleanup.
+- **Why:** The local demonstration should communicate state clearly and avoid retaining temporary object URLs.
+- **Files:** `matcher.html`, `script.js`.
+- **Expected result:** Empty matcher notes are explained, successful feedback is announced, and temporary previews are released.
+- **Success test:** Browser checks cover empty submission, valid recommendation feedback, and image preview behavior.
+
+### 10. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.
 - **Files:** `contact.html`, `script.js`, `server.js`, `db/schema.sql` if persistence is approved.
@@ -73,7 +80,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 
 ## Phase 4 — Finish the appointment booking system
 
-### 10. Add database-backed services, stylists, and availability
+### 11. Add database-backed services, stylists, and availability
 - [ ] **What:** Add API reads for active services, stylists, working hours, closures, and available slots.
 - **Why:** Static choices do not represent real availability.
 - **Files:** `db/schema.sql`, `server.js`, `booking.html`, `script.js`.
