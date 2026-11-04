@@ -100,6 +100,13 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Oversized customer-facing fields return a clear 400 response.
 - **Success test:** Regression coverage verifies an oversized customer name is rejected.
 
+### 10d. Guard appointment request body shape
+- [x] **What:** Reject `null` and array JSON bodies before appointment field access.
+- **Why:** API callers can bypass the browser and malformed bodies must produce a controlled validation response.
+- **Files:** `server.js`, `test/smoke.test.js`.
+- **Expected result:** Non-object bodies return the required-fields 400 response without a server exception.
+- **Success test:** Regression coverage verifies a JSON array body is rejected.
+
 ### 11. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.

@@ -73,6 +73,19 @@ test("booking API rejects incomplete appointment data", async () => {
   });
 });
 
+test("booking API rejects array JSON bodies", async () => {
+  const response = await fetch(`${baseUrl}/api/appointments`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: "[]",
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "All appointment fields are required.",
+  });
+});
+
 test("booking API rejects malformed customer email", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",

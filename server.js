@@ -18,6 +18,9 @@ app.use((request, response, next) => {
 app.use(express.static(__dirname));
 
 app.post("/api/appointments", async (request, response) => {
+  if (!request.body || typeof request.body !== "object" || Array.isArray(request.body)) {
+    return response.status(400).json({ error: "All appointment fields are required." });
+  }
   const { treatment, stylist, appointmentDate, appointmentTime, customerName, customerEmail } = request.body;
   const values = [treatment, stylist, appointmentDate, appointmentTime, customerName, customerEmail];
 
