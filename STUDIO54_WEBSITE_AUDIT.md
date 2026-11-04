@@ -30,7 +30,7 @@ The project folder is **not a Git repository** (`git status` returns “not a gi
 | `index.html` | Homepage, hero, services teaser, matcher teaser, gallery teaser, booking CTA | Present; primary marketing page |
 | `services.html` | Services and prices | Present; static price list |
 | `gallery.html` | Portfolio with category filters and lightbox | Present; client-side demo works |
-| `matcher.html` | Photo upload and style recommendation demo | Present; not AI-powered |
+| `matcher.html` | Preference-based style consultation | Present; explicitly not AI-powered |
 | `booking.html` | Four-step appointment request flow | Present; availability and choices are static |
 | `about.html` | Salon story and team | Present; fictional content |
 | `contact.html` | Contact details and enquiry form | Present; submits to the validated contact API |
@@ -62,7 +62,7 @@ All nine pages were opened through the running Express server and returned HTTP 
 2. **Booking availability requires configured scheduling data.** The booking UI now reads services, active stylists, and date-specific slots from the API; without database configuration it clearly reports that booking data is unavailable.
 3. **Booking conflicts are now blocked at the API and database layers.** Active appointments use a unique date/time index, and stale availability requests return a conflict response.
 4. **Booking lifecycle is request-based pending staff operations.** New appointments now receive a stable reference and status; confirmation email, cancellation, rescheduling, and staff status management remain future operational work.
-5. **The matcher is a demonstration, not an AI hairstyle matcher.** `matcher.html` and `script.js` explicitly state that no AI analysis takes place.
+5. **The style consultation is intentionally preference-based, not AI-powered.** `matcher.html` explains that images remain local and are not uploaded or stored.
 
 ### Medium priority
 
@@ -98,7 +98,7 @@ No admin page or authentication route exists in the current file inventory.
 | High | Existing production data must be checked before applying the active-slot unique index | `server.js`, `db/schema.sql` | Reconcile any duplicate non-cancelled appointments before migration |
 | High | Booking availability depends on configured scheduling data | `booking.html`, `script.js`, `server.js`, `db/schema.sql` | Populate and maintain availability slots, then add server-side conflict validation |
 | High | No authentication or authorization for staff features | No current implementation | Add a separately scoped staff surface with secure password/session handling |
-| High | Matcher claims a guided result but performs no analysis | `matcher.html`, `script.js` | Either integrate an approved analysis service with privacy controls or label it permanently as a non-AI consultation tool |
+| High | No AI analysis is performed by the style consultation | `matcher.html`, `script.js` | Keep the transparent preference-based scope unless an approved provider and privacy model are introduced |
 | Medium | Contact enquiry delivery depends on configured database storage | `contact.html`, `script.js`, `server.js`, `db/schema.sql` | Configure `DATABASE_URL` and operationally monitor persisted enquiries |
 | Medium | Character encoding is visibly corrupted in several pages (`â€™`, `â†’`, `Â£`, `Ã—`) | `index.html`, `about.html`, `booking.html`, `contact.html`, `gallery.html`, `services.html`, `matcher.html` | Normalise files to UTF-8 and replace corrupted entities with valid HTML entities or UTF-8 characters |
 | Medium | Shared header/footer markup has drifted between pages | All HTML pages | Extract a rendering strategy or apply a controlled shared navigation update |

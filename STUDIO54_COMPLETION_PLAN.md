@@ -151,11 +151,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 ## Phase 5 — Complete planned AI and staff features
 
 ### 11. Decide the matcher scope and privacy model
-- [ ] **What:** Choose between a transparent preference-based consultation tool and an approved AI provider integration.
+- [x] **What:** Use a transparent preference-based consultation tool rather than an unapproved AI provider integration.
 - **Why:** The current page is not AI and must not imply analysis that does not happen.
 - **Files:** `matcher.html`, `script.js`, `server.js` if server integration is approved, privacy documentation.
 - **Expected result:** Recommendations are technically honest, useful, and privacy-compliant.
 - **Success test:** Upload, rejection, loading, success, failure, deletion, and privacy messaging are tested.
+- **Progress:** Reframed the public experience as Style Consultation across navigation and metadata. The page now states that it uses preferences only, keeps previews local, and does not upload or store images.
 
 ### 12. Add secure staff administration
 - [ ] **What:** Implement authentication, authorisation, sessions, protected routes, and staff views for services, stylists, availability, bookings, and gallery content.
