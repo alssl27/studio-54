@@ -15,6 +15,18 @@ CREATE TABLE IF NOT EXISTS stylists (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS availability_slots (
+  id BIGSERIAL PRIMARY KEY,
+  slot_date DATE NOT NULL,
+  slot_time TIME NOT NULL,
+  stylist_name TEXT NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+  UNIQUE (slot_date, slot_time, stylist_name)
+);
+
+CREATE INDEX IF NOT EXISTS availability_slots_lookup_idx
+  ON availability_slots (slot_date, active);
+
 CREATE TABLE IF NOT EXISTS appointments (
   id BIGSERIAL PRIMARY KEY,
   treatment TEXT NOT NULL,

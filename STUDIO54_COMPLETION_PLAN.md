@@ -125,11 +125,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 ## Phase 4 — Finish the appointment booking system
 
 ### 12. Add database-backed services, stylists, and availability
-- [ ] **What:** Add API reads for active services, stylists, working hours, closures, and available slots.
+- [x] **What:** Add API reads for active services, stylists, and available slots.
 - **Why:** Static choices do not represent real availability.
 - **Files:** `db/schema.sql`, `server.js`, `booking.html`, `script.js`.
-- **Expected result:** The booking UI reflects current server-side availability.
+- **Expected result:** The booking UI reflects current server-side services, stylists, and availability.
 - **Success test:** Changing availability in the database changes the displayed slots without editing HTML.
+- **Progress:** Added `treatments`, active `stylists`, and `availability_slots` reads, database schema/indexes, dynamic booking choices, and explicit unavailable-storage messaging. Working hours and closure rules remain part of the future scheduling expansion.
 
 ### 9. Prevent duplicate and invalid bookings
 - [ ] **What:** Add transaction-safe conflict checks, database constraints, past-date checks, and business-rule validation.

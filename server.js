@@ -27,6 +27,63 @@ app.use((error, request, response, next) => {
 });
 app.use(express.static(__dirname));
 
+app.get("/api/services", async (request, response) => {
+  if (!pool) {
+    return response.status(503).json({ error: "Booking data is not configured. Add DATABASE_URL to .env." });
+  }
+  try {
+    const result = await pool.query(
+      `SELECT name, description, price_from, duration_minutes
+       FROM treatments ORDER BY name`,
+    );
+    return response.json({ services: result.rows });
+  } catch (error) {
+    console.error("Service lookup failed:", error);
+    return response.status(500).json({ error: "Services could not be loaded." });
+  }
+});
+
+app.get("/api/stylists", async (request, response) => {
+  if (!pool) {
+    return response.status(503).json({ error: "Booking data is not configured. Add DATABASE_URL to .env." });
+  }
+  try {
+    const result = await pool.query(
+      `SELECT name, speciality FROM stylists WHERE active = TRUE ORDER BY name`,
+    );
+    return response.json({ stylists: result.rows });
+  } catch (error) {
+    console.error("Stylist lookup failed:", error);
+    return response.status(500).json({ error: "Stylists could not be loaded." });
+  }
+});
+
+app.get("/api/availability", async (request, response) => {
+  const { date } = request.query;
+  const dateParts = typeof date === "string" && date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const validDate = dateParts
+    && new Date(Date.UTC(Number(dateParts[1]), Number(dateParts[2]) - 1, Number(dateParts[3]))).toISOString().slice(0, 10) === date;
+  if (!validDate) {
+    return response.status(400).json({ error: "Please provide a valid availability date." });
+  }
+  if (!pool) {
+    return response.status(503).json({ error: "Booking data is not configured. Add DATABASE_URL to .env." });
+  }
+  try {
+    const result = await pool.query(
+      `SELECT DISTINCT TO_CHAR(slot_time, 'HH24:MI') AS slot_time
+       FROM availability_slots
+       WHERE slot_date = $1 AND active = TRUE
+       ORDER BY slot_time`,
+      [date],
+    );
+    return response.json({ date, slots: result.rows.map((row) => row.slot_time) });
+  } catch (error) {
+    console.error("Availability lookup failed:", error);
+    return response.status(500).json({ error: "Availability could not be loaded." });
+  }
+});
+
 app.post("/api/appointments", async (request, response) => {
   if (!request.body || typeof request.body !== "object" || Array.isArray(request.body)) {
     return response.status(400).json({ error: "All appointment fields are required." });

@@ -63,6 +63,34 @@ test("public responses include baseline security headers", async () => {
   assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
 });
 
+test("booking data APIs report unavailable storage clearly", async () => {
+  for (const endpoint of ["/api/services", "/api/stylists"]) {
+    const response = await fetch(`${baseUrl}${endpoint}`);
+    assert.equal(response.status, 503);
+    assert.deepEqual(await response.json(), {
+      error: "Booking data is not configured. Add DATABASE_URL to .env.",
+    });
+  }
+});
+
+test("availability API validates the requested date", async () => {
+  const response = await fetch(`${baseUrl}/api/availability?date=not-a-date`);
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Please provide a valid availability date.",
+  });
+});
+
+test("availability API reports unavailable storage clearly", async () => {
+  const response = await fetch(`${baseUrl}/api/availability?date=2026-11-10`);
+
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), {
+    error: "Booking data is not configured. Add DATABASE_URL to .env.",
+  });
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",

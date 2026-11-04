@@ -152,6 +152,59 @@ const bookingData = {
   appointmentDate: "",
   appointmentTime: "",
 };
+const bookingChoiceGrids = [...document.querySelectorAll(".booking-step .choice-grid")];
+const bookingStatus = (grid, text) => {
+  let status = grid.parentElement.querySelector(".booking-data-status");
+  if (!status) {
+    status = document.createElement("p");
+    status.className = "booking-data-status booking-error";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    grid.after(status);
+  }
+  status.textContent = text;
+};
+const renderBookingChoices = (grid, choices) => {
+  grid.replaceChildren(...choices.map(({ value, detail }) => {
+    const button = document.createElement("button");
+    button.className = "choice";
+    button.type = "button";
+    button.setAttribute("aria-pressed", "false");
+    const title = document.createElement("strong");
+    title.textContent = value;
+    const description = document.createElement("small");
+    description.textContent = detail;
+    button.append(title, description);
+    return button;
+  }));
+};
+const loadBookingData = async () => {
+  if (bookingChoiceGrids.length < 2) return;
+  try {
+    const [servicesResponse, stylistsResponse] = await Promise.all([
+      fetch("/api/services"),
+      fetch("/api/stylists"),
+    ]);
+    const services = await servicesResponse.json();
+    const stylists = await stylistsResponse.json();
+    if (!servicesResponse.ok) throw new Error(services.error || "Services could not be loaded.");
+    if (!stylistsResponse.ok) throw new Error(stylists.error || "Stylists could not be loaded.");
+    renderBookingChoices(bookingChoiceGrids[0], services.services.map((service) => ({
+      value: service.name,
+      detail: `From £${service.price_from} · ${service.duration_minutes} min`,
+    })));
+    renderBookingChoices(bookingChoiceGrids[1], [
+      { value: "Any available stylist", detail: "We'll find your best match" },
+      ...stylists.stylists.map((stylist) => ({ value: stylist.name, detail: stylist.speciality })),
+    ]);
+  } catch (error) {
+    bookingChoiceGrids.slice(0, 2).forEach((grid) => {
+      grid.replaceChildren();
+      bookingStatus(grid, error.message);
+    });
+  }
+};
+loadBookingData();
 const showBookingStep = (step) => {
   bookingSteps.forEach((item, index) => item.classList.toggle("active", index === step));
   document.querySelectorAll(".step-indicator span").forEach((item, index) => {
@@ -192,7 +245,9 @@ document.querySelectorAll("[data-previous-step]").forEach((button) => button.add
   if (currentStep > 0) currentStep -= 1;
   showBookingStep(currentStep);
 }));
-document.querySelectorAll(".choice").forEach((choice) => choice.addEventListener("click", () => {
+document.addEventListener("click", (event) => {
+  const choice = event.target.closest(".choice");
+  if (!choice) return;
   choice.parentElement.querySelectorAll(".choice").forEach((item) => item.classList.remove("selected"));
   choice.classList.add("selected");
   choice.parentElement.closest(".booking-step")?.querySelector(".booking-error")?.remove();
@@ -202,10 +257,23 @@ document.querySelectorAll(".choice").forEach((choice) => choice.addEventListener
   if (stepIndex === 0) bookingData.treatment = selectedValue;
   if (stepIndex === 1) bookingData.stylist = selectedValue;
   if (stepIndex === 2) bookingData.appointmentTime = selectedValue;
-}));
+});
 
-bookingDate?.addEventListener("change", () => {
+bookingDate?.addEventListener("change", async () => {
   bookingData.appointmentDate = bookingDate.value;
+  const timeGrid = bookingChoiceGrids[2];
+  if (!timeGrid || !bookingDate.value) return;
+  timeGrid.replaceChildren();
+  bookingStatus(timeGrid, "Loading available times...");
+  try {
+    const response = await fetch(`/api/availability?date=${encodeURIComponent(bookingDate.value)}`);
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Availability could not be loaded.");
+    renderBookingChoices(timeGrid, result.slots.map((time) => ({ value: time, detail: "Available" })));
+    if (!result.slots.length) bookingStatus(timeGrid, "No appointments are available on this date.");
+  } catch (error) {
+    bookingStatus(timeGrid, error.message);
+  }
 });
 
 document.querySelector('[data-next-step][data-submit-booking]')?.addEventListener("click", async (event) => {

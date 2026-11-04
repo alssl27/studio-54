@@ -59,7 +59,7 @@ All nine pages were opened through the running Express server and returned HTTP 
 ### High priority
 
 1. **Booking storage is not configured by default.** `server.js` returns HTTP 503 when `DATABASE_URL` is absent. The live probe confirmed this behavior.
-2. **Booking availability is fictional/static.** `booking.html` hard-codes three time slots and the selected treatment/stylist values; there is no API lookup for real availability.
+2. **Booking availability requires configured scheduling data.** The booking UI now reads services, active stylists, and date-specific slots from the API; without database configuration it clearly reports that booking data is unavailable.
 3. **The booking endpoint does not prevent duplicate bookings.** The schema indexes date/time but has no uniqueness/exclusion rule, and the API does not check for conflicts.
 4. **No confirmed booking lifecycle exists.** The UI sends a request and displays “request received”; there is no confirmation email, staff workflow, cancellation, rescheduling, or status management.
 5. **The matcher is a demonstration, not an AI hairstyle matcher.** `matcher.html` and `script.js` explicitly state that no AI analysis takes place.
@@ -67,7 +67,7 @@ All nine pages were opened through the running Express server and returned HTTP 
 ### Medium priority
 
 6. Contact enquiries now persist through `POST /api/contact` when database storage is configured.
-7. Treatments and stylists are stored in the database but public services and booking choices are duplicated as hard-coded HTML.
+7. Treatments, stylists, and booking availability are now read from database-backed APIs; the public services page remains static and is a later content-unification task.
 8. The footer and branding are not fully consistent across pages; some pages still use the older `studio 54` brand markup while the homepage has the newer lockup.
 9. Page content, prices, team data, products, and tutorials are static and cannot be managed without editing files.
 
@@ -96,7 +96,7 @@ No admin page or authentication route exists in the current file inventory.
 | Critical | No Git repository is available for safe change tracking | Project root | Initialise/use source control before implementation; do not overwrite existing work |
 | Critical | Booking POST returns 503 without `DATABASE_URL` | `server.js`, `.env.example` | Configure deployment secrets, add startup validation, and provide a tested database migration/setup path |
 | High | Duplicate appointments are possible | `server.js`, `db/schema.sql` | Add a conflict check plus a database-level constraint/transaction strategy |
-| High | Booking UI submits fictional availability | `booking.html`, `script.js`, `server.js` | Replace hard-coded slots with availability API calls and server-side validation |
+| High | Booking availability depends on configured scheduling data | `booking.html`, `script.js`, `server.js`, `db/schema.sql` | Populate and maintain availability slots, then add server-side conflict validation |
 | High | No authentication or authorization for staff features | No current implementation | Add a separately scoped staff surface with secure password/session handling |
 | High | Matcher claims a guided result but performs no analysis | `matcher.html`, `script.js` | Either integrate an approved analysis service with privacy controls or label it permanently as a non-AI consultation tool |
 | Medium | Contact enquiry delivery depends on configured database storage | `contact.html`, `script.js`, `server.js`, `db/schema.sql` | Configure `DATABASE_URL` and operationally monitor persisted enquiries |
