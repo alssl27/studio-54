@@ -86,6 +86,13 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Invalid calendar/time values return the same clear 400 validation response.
 - **Success test:** Regression tests cover malformed and impossible date/time values.
 
+### 10b. Reject past appointment dates
+- [x] **What:** Enforce a future-date rule in the appointment API.
+- **Why:** Client-side `min` attributes can be bypassed by direct API requests.
+- **Files:** `server.js`, `test/smoke.test.js`.
+- **Expected result:** Past appointment dates return a clear 400 response before storage is attempted.
+- **Success test:** Regression coverage verifies a past date is rejected.
+
 ### 11. Complete the contact workflow
 - [ ] **What:** Add a server-side contact endpoint with validation and an approved delivery/storage method.
 - **Why:** The current contact form only resets locally and does not contact the salon.

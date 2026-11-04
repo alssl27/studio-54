@@ -172,6 +172,7 @@ No admin page or authentication route exists in the current file inventory.
 - `npm test` now provides dependency-free smoke coverage for all public pages and the documented booking API validation/storage states.
 - Booking smoke coverage now also protects malformed email and date/time validation responses.
 - The appointment API now validates actual calendar dates and 24-hour time ranges instead of checking only string shape.
+- The appointment API now rejects dates before the server's current UTC date, matching the client-side minimum-date behavior.
 - Shared interaction handling now returns focus after closing the menu/lightbox, rejects matcher images over 10 MB, and revokes replaced preview object URLs.
 - Homepage service, matcher, gallery, and salon-story CTAs now point to their corresponding pages instead of incorrectly targeting the booking anchor.
 - Shared form controls now expose stronger visible focus rings and invalid-field styling without changing validation behavior.

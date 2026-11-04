@@ -37,6 +37,10 @@ app.post("/api/appointments", async (request, response) => {
   if (!validDate || !validTime) {
     return response.status(400).json({ error: "Please provide a valid appointment date and time." });
   }
+  const today = new Date().toISOString().slice(0, 10);
+  if (appointmentDate < today) {
+    return response.status(400).json({ error: "Please choose a future appointment date." });
+  }
   if (!pool) {
     return response.status(503).json({ error: "Booking storage is not configured. Add DATABASE_URL to .env." });
   }
