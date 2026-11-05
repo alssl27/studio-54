@@ -112,6 +112,7 @@ bookingForm?.addEventListener("submit", (event) => {
   submitButton.disabled = true;
   submitButton.setAttribute("aria-busy", "true");
   submitButton.setAttribute("aria-label", "Opening booking journey");
+  submitButton.textContent = "Opening booking...";
   sessionStorage.setItem("studio54.bookingEmail", email.trim());
   window.location.href = "booking.html";
 });

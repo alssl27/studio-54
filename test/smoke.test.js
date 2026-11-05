@@ -109,6 +109,7 @@ test("homepage booking handoff prevents duplicate submissions", async () => {
   assert.match(script, /submitButton\.disabled = true/);
   assert.match(script, /submitButton\.setAttribute\("aria-busy", "true"\)/);
   assert.match(script, /submitButton\.setAttribute\("aria-label", "Opening booking journey"\)/);
+  assert.match(script, /submitButton\.textContent = "Opening booking\.\.\."/);
 });
 
 test("homepage booking feedback is linked to the email field", async () => {
