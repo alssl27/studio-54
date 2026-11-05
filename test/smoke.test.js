@@ -123,11 +123,13 @@ test("services page preserves a visible fallback when live data is unavailable",
 });
 
 test("customer forms expose autofill hints and server-aligned limits", async () => {
-  const [bookingMarkup, contactMarkup] = await Promise.all([
+  const [homeMarkup, bookingMarkup, contactMarkup] = await Promise.all([
+    (await fetch(`${baseUrl}/index.html`)).text(),
     (await fetch(`${baseUrl}/booking.html`)).text(),
     (await fetch(`${baseUrl}/contact.html`)).text(),
   ]);
 
+  assert.match(homeMarkup, /id="booking-email"[^>]+autocomplete="email"[^>]+maxlength="254"/);
   assert.match(bookingMarkup, /name="customerName"[^>]+autocomplete="name"[^>]+maxlength="120"/);
   assert.match(bookingMarkup, /name="customerEmail"[^>]+autocomplete="email"[^>]+maxlength="254"/);
   assert.match(contactMarkup, /name="name"[^>]+autocomplete="name"[^>]+maxlength="120"/);

@@ -199,6 +199,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** A documented release candidate with known limitations.
 - **Success test:** Test report is green or every failure has an owner and approved disposition.
 - **Progress:** Browser sweep verified all nine pages, shared navigation, landmarks, descriptions, social metadata, matcher privacy copy, and health output. Smoke coverage now verifies every internal `.html` link. Database-backed success/conflict flows and protected staff routes remain blocked by missing production infrastructure/features.
+- **Progress:** Mobile QA at 390px verified the menu open/close state, Escape handling, focus return, and contained hero image; customer email fields now share consistent autofill and server-aligned length metadata.
 
 ## Phase 9 — Prepare for deployment
 
