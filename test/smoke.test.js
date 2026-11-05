@@ -76,7 +76,7 @@ test("gallery filters announce the visible result count", async () => {
 
   assert.match(gallery, /class="gallery-filter-status" role="status" aria-live="polite"/);
   assert.match(script, /galleryFilterStatus && \(galleryFilterStatus\.textContent =/);
-  assert.match(script, /updateGalleryFilterStatus\(category\)/);
+  assert.match(script, /updateGalleryFilterStatus\(category, filter\.textContent\.trim\(\)\)/);
 });
 
 test("gallery filters identify the gallery they control", async () => {

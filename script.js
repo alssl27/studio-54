@@ -123,11 +123,11 @@ bookingForm?.addEventListener("submit", (event) => {
 const galleryFilters = document.querySelectorAll(".filter-button");
 const galleryItems = document.querySelectorAll("[data-category]");
 const galleryFilterStatus = document.querySelector(".gallery-filter-status");
-const updateGalleryFilterStatus = (category) => {
+const updateGalleryFilterStatus = (category, label = category) => {
   const visibleCount = [...galleryItems].filter((item) => !item.hidden).length;
-  galleryFilterStatus && (galleryFilterStatus.textContent = `${category === "all" ? "All work" : category} showing: ${visibleCount} ${visibleCount === 1 ? "look" : "looks"}.`);
+  galleryFilterStatus && (galleryFilterStatus.textContent = `${label} showing: ${visibleCount} ${visibleCount === 1 ? "look" : "looks"}.`);
 };
-updateGalleryFilterStatus("all");
+updateGalleryFilterStatus("all", "All work");
 galleryFilters.forEach((filter) => {
   filter.addEventListener("click", () => {
     galleryFilters.forEach((item) => item.classList.remove("active"));
@@ -137,7 +137,7 @@ galleryFilters.forEach((filter) => {
     galleryItems.forEach((item) => {
       item.hidden = category !== "all" && item.dataset.category !== category;
     });
-    updateGalleryFilterStatus(category);
+    updateGalleryFilterStatus(category, filter.textContent.trim());
   });
 });
 
