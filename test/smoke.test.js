@@ -150,7 +150,9 @@ test("contact form exposes recoverable native validation feedback", async () => 
   assert.match(styles, /\.contact-form input\[aria-invalid="true"\]/);
   assert.match(script, /form\.addEventListener\("invalid", \(event\) =>/);
   assert.match(script, /field\.setAttribute\("aria-invalid", "true"\)/);
+  assert.match(script, /field\.setAttribute\("aria-errormessage", "contact-form-status"\)/);
   assert.match(script, /field\.removeAttribute\("aria-invalid"\)/);
+  assert.match(script, /field\.removeAttribute\("aria-errormessage"\)/);
   assert.match(script, /Please complete the highlighted field/);
 });
 

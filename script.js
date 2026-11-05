@@ -488,12 +488,14 @@ document.querySelectorAll(".contact-form").forEach((form) => {
     const field = event.target;
     if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement)) return;
     field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-errormessage", "contact-form-status");
     if (status) status.textContent = "Please complete the highlighted field.";
   }, true);
   form.addEventListener("input", (event) => {
     const field = event.target;
     if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement)) return;
     field.removeAttribute("aria-invalid");
+    field.removeAttribute("aria-errormessage");
     if (status) status.textContent = "";
   });
 });
