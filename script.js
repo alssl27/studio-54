@@ -1,6 +1,12 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".primary-navigation");
 
+document.querySelectorAll(".site-header a[href]").forEach((link) => {
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+  const linkPage = link.getAttribute("href").split("/").pop();
+  if (linkPage === currentPage) link.setAttribute("aria-current", "page");
+});
+
 if (menuToggle && navigation) {
   const closeMenu = () => {
     navigation.classList.remove("is-open");

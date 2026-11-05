@@ -63,6 +63,13 @@ test("mobile navigation closes when focus moves outside the menu", async () => {
   assert.match(script, /closeMenu\(\);\s*\n\s*}\s*\n\s*}\);\s*\n}/);
 });
 
+test("shared navigation marks the current page", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /window\.location\.pathname\.split\("\/"\)\.pop\(\) \|\| "index\.html"/);
+  assert.match(script, /link\.setAttribute\("aria-current", "page"\)/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
