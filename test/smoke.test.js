@@ -141,7 +141,8 @@ test("homepage booking form routes into the real booking journey", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
   assert.match(markup, /id="booking-form"/);
-  assert.match(script, /booking\.html\?email=/);
+  assert.match(script, /sessionStorage\.setItem\("studio54\.bookingEmail"/);
+  assert.match(script, /window\.location\.href = "booking\.html"/);
 });
 
 test("availability API validates the requested date", async () => {

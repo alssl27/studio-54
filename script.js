@@ -80,7 +80,8 @@ bookingForm?.addEventListener("submit", (event) => {
     return;
   }
   formMessage.textContent = "Taking you to the booking journey...";
-  window.location.href = `booking.html?email=${encodeURIComponent(email.trim())}`;
+  sessionStorage.setItem("studio54.bookingEmail", email.trim());
+  window.location.href = "booking.html";
 });
 
 const galleryFilters = document.querySelectorAll(".filter-button");
@@ -190,9 +191,10 @@ let currentStep = 0;
 const bookingDate = document.querySelector("#booking-date");
 if (bookingDate) bookingDate.min = new Date().toISOString().split("T")[0];
 const bookingEmail = document.querySelector("#guest-email");
-const bookingEmailParam = new URLSearchParams(window.location.search).get("email");
-if (bookingEmail && bookingEmailParam) {
-  bookingEmail.value = bookingEmailParam;
+const storedBookingEmail = sessionStorage.getItem("studio54.bookingEmail");
+if (bookingEmail && storedBookingEmail) {
+  bookingEmail.value = storedBookingEmail;
+  sessionStorage.removeItem("studio54.bookingEmail");
 }
 const bookingData = {
   treatment: "",

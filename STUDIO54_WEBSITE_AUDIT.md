@@ -190,6 +190,6 @@ No admin page or authentication route exists in the current file inventory.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
 - Final browser QA verified all nine pages render with one main landmark, seven shared navigation links, page descriptions, and social metadata. Internal HTML-link resolution is covered by the smoke suite; database-backed success/conflict flows remain unverified without PostgreSQL.
 - Mobile QA at 390px verified responsive menu Escape behavior, focus return, and hero containment; the homepage booking email field now matches the booking/contact form autofill and length constraints.
-- The homepage booking email capture now routes to `booking.html` with a URL-encoded email that is prefilled in the real booking flow; it no longer presents a local-only success state.
+- The homepage booking email capture now routes to `booking.html` with a session-stored email that is cleared after prefill; it no longer exposes the address in the URL or presents a local-only success state.
 - The completion checklist in this audit now distinguishes delivered application work from items that require approved business content, PostgreSQL infrastructure, production imagery, or a future authenticated staff surface.
 - The approved baseline and encoding/navigation tasks changed only source-control/documentation setup and shared HTML markup; booking, matcher, and API behavior were not expanded.
