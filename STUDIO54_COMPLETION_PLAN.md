@@ -185,6 +185,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Progress:** The local hero asset now declares intrinsic dimensions and asynchronous decoding to reduce layout shift.
 - **Progress:** The above-the-fold hero image now declares high fetch priority; remote editorial images retain lazy loading because their intrinsic dimensions are not locally verifiable and self-hosting is still pending.
 - **Progress:** All public pages now expose consistent theme-color, Open Graph title/description/type, and Twitter card metadata without inventing a production domain or social image.
+- **Progress:** Added `robots.txt` to allow public pages while excluding `/api/` and `/healthz`; a production sitemap remains intentionally deferred until the real domain is approved.
 - **Why:** Remote images and duplicate font declarations can affect loading and layout stability.
 - **Files:** HTML pages, `style.css`, `server.js`, `assets/`.
 - **Expected result:** Faster, more stable, shareable pages with safer delivery defaults.

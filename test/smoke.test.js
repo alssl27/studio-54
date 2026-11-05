@@ -54,6 +54,16 @@ test("all public pages load successfully", async () => {
   }
 });
 
+test("robots policy keeps operational endpoints out of search", async () => {
+  const response = await fetch(`${baseUrl}/robots.txt`);
+  const robots = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(robots, /Allow: \//);
+  assert.match(robots, /Disallow: \/api\//);
+  assert.match(robots, /Disallow: \/healthz/);
+});
+
 test("internal HTML links resolve successfully", async () => {
   const pages = [
     "index.html",

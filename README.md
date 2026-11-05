@@ -43,6 +43,7 @@ The current tests intentionally verify the documented no-database behavior. Book
 - `server.js` — Express static server and appointment API
 - `db/schema.sql` — PostgreSQL tables and indexes
 - `assets/` — local image assets
+- `robots.txt` — crawler policy for public pages and operational endpoints
 
 The current booking and matcher experiences are prototypes. See `STUDIO54_WEBSITE_AUDIT.md` and `STUDIO54_COMPLETION_PLAN.md` for known limitations and the gated completion roadmap.
 
