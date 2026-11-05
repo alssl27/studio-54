@@ -149,6 +149,7 @@ document.querySelectorAll("[data-lightbox]").forEach((image) => {
   image.setAttribute("tabindex", "0");
   image.setAttribute("role", "button");
   image.setAttribute("aria-controls", "gallery-lightbox");
+  image.setAttribute("aria-haspopup", "dialog");
   image.setAttribute("aria-expanded", "false");
   image.setAttribute("aria-label", `Enlarge image: ${image.alt}`);
   const openLightbox = () => {
