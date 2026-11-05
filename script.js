@@ -93,6 +93,10 @@ bookingEmailInput?.addEventListener("input", () => {
   bookingEmailInput.removeAttribute("aria-invalid");
   if (formMessage) formMessage.textContent = "";
 });
+bookingEmailInput?.addEventListener("invalid", () => {
+  bookingEmailInput.setAttribute("aria-invalid", "true");
+  if (formMessage) formMessage.textContent = "Please enter a valid email address.";
+});
 
 bookingForm?.addEventListener("submit", (event) => {
   event.preventDefault();

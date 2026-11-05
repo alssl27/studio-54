@@ -125,6 +125,7 @@ test("homepage booking email feedback clears and marks invalid input", async () 
   assert.match(script, /bookingEmailInput\?\.focus\(\)/);
   assert.match(script, /bookingEmailInput\.removeAttribute\("aria-invalid"\)/);
   assert.match(script, /formMessage\.textContent = ""/);
+  assert.match(script, /bookingEmailInput\?\.addEventListener\("invalid"/);
 });
 
 test("booking completion copy describes a pending request", async () => {
