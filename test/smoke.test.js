@@ -283,6 +283,7 @@ test("booking hides inactive steps from assistive technology", async () => {
   const booking = await (await fetch(`${baseUrl}/booking.html`)).text();
 
   assert.match(script, /item\.setAttribute\("aria-hidden", String\(!isActive\)\)/);
+  assert.match(script, /item\.setAttribute\("aria-live", isActive \? "polite" : "off"\)/);
   assert.match(script, /showBookingStep\(currentStep\);\s*document\.querySelectorAll\("\[data-next-step\]/);
   assert.match(booking, /class="step-indicator" role="list" aria-label="Booking progress"/);
   assert.match(booking, /role="listitem" aria-current="step"/);

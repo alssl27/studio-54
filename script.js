@@ -324,6 +324,7 @@ const showBookingStep = (step) => {
     const isActive = index === step;
     item.classList.toggle("active", isActive);
     item.setAttribute("aria-hidden", String(!isActive));
+    item.setAttribute("aria-live", isActive ? "polite" : "off");
   });
   document.querySelectorAll(".step-indicator span").forEach((item, index) => {
     item.classList.toggle("active", index <= step);
