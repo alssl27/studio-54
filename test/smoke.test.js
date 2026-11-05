@@ -189,6 +189,9 @@ test("style consultation upload errors expose recovery state", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
   const styles = await (await fetch(`${baseUrl}/style.css`)).text();
 
+  assert.match(script, /uploadPreview\.querySelector\("img"\)\?\.remove\(\)/);
+  assert.match(script, /uploadPreview\.prepend\(image\)/);
+  assert.match(script, /uploadMessage\(/);
   assert.match(script, /matcherUpload\.setAttribute\("aria-invalid", "true"\)/);
   assert.match(script, /matcherUpload\.removeAttribute\("aria-invalid"\)/);
   assert.match(styles, /\.matcher-panel input\[type="file"\]\[aria-invalid="true"\]/);

@@ -200,6 +200,16 @@ const matcherUpload = document.querySelector("#matcher-upload");
 const uploadPreview = document.querySelector(".upload-preview");
 const matcherNotes = matcherForm?.querySelector("#style-notes");
 const matcherNotesError = matcherForm?.querySelector("#matcher-notes-error");
+const uploadMessage = (text) => {
+  let message = uploadPreview?.querySelector(".upload-status");
+  if (!message && uploadPreview) {
+    message = document.createElement("p");
+    message.className = "upload-status";
+    message.setAttribute("role", "status");
+    uploadPreview.append(message);
+  }
+  if (message) message.textContent = text;
+};
 matcherNotes?.addEventListener("input", () => {
   matcherNotes.setCustomValidity("");
   matcherNotes.removeAttribute("aria-invalid");
@@ -211,9 +221,9 @@ matcherUpload?.addEventListener("change", () => {
   if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024) {
     matcherUpload.value = "";
     matcherUpload.setAttribute("aria-invalid", "true");
-    uploadPreview.textContent = file.type.startsWith("image/")
+    uploadMessage(file.type.startsWith("image/")
       ? "Please choose an image smaller than 10 MB."
-      : "Please choose an image file.";
+      : "Please choose an image file.");
     return;
   }
   matcherUpload.removeAttribute("aria-invalid");
@@ -222,7 +232,9 @@ matcherUpload?.addEventListener("change", () => {
   const image = document.createElement("img");
   image.src = previewUrl;
   image.alt = "Your uploaded preview";
-  uploadPreview.replaceChildren(image);
+  uploadPreview.querySelector("img")?.remove();
+  uploadPreview.prepend(image);
+  uploadMessage("Reference preview loaded.");
 });
 matcherForm?.addEventListener("submit", (event) => {
   event.preventDefault();
