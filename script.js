@@ -450,6 +450,8 @@ document.querySelectorAll(".contact-form").forEach((form) => form.addEventListen
   const status = form.querySelector(".form-status");
   button.disabled = true;
   button.setAttribute("aria-busy", "true");
+  button.setAttribute("aria-label", "Sending enquiry");
+  button.textContent = "Sending enquiry...";
   status.textContent = "Sending your enquiry...";
   try {
     const response = await fetch("/api/contact", {
@@ -466,5 +468,7 @@ document.querySelectorAll(".contact-form").forEach((form) => form.addEventListen
   } finally {
     button.disabled = false;
     button.removeAttribute("aria-busy");
+    button.removeAttribute("aria-label");
+    button.textContent = "Send enquiry →";
   }
 }));

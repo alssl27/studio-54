@@ -133,6 +133,16 @@ test("homepage booking email feedback clears and marks invalid input", async () 
   assert.match(script, /bookingEmailInput\?\.addEventListener\("invalid"/);
 });
 
+test("contact form exposes linked sending feedback", async () => {
+  const contact = await (await fetch(`${baseUrl}/contact.html`)).text();
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(contact, /class="contact-form" aria-describedby="contact-form-status"/);
+  assert.match(contact, /class="form-status" id="contact-form-status" role="status"/);
+  assert.match(script, /button\.setAttribute\("aria-label", "Sending enquiry"\)/);
+  assert.match(script, /button\.textContent = "Sending enquiry\.\.\."/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
