@@ -79,6 +79,13 @@ test("gallery filters announce the visible result count", async () => {
   assert.match(script, /updateGalleryFilterStatus\(category\)/);
 });
 
+test("gallery filters identify the gallery they control", async () => {
+  const gallery = await (await fetch(`${baseUrl}/gallery.html`)).text();
+
+  assert.match(gallery, /aria-controls="editorial-gallery"/);
+  assert.match(gallery, /class="editorial-grid" id="editorial-gallery"/);
+});
+
 test("gallery lightbox synchronizes its dialog visibility", async () => {
   const gallery = await (await fetch(`${baseUrl}/gallery.html`)).text();
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
