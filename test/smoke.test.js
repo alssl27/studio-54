@@ -213,6 +213,13 @@ test("booking completion copy describes a pending request", async () => {
   assert.doesNotMatch(markup, /does not confirm availability/);
 });
 
+test("booking submission restores its action label after an error", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /button\.textContent = "Send booking request →"/);
+  assert.doesNotMatch(script, /button\.textContent = "Review request →"/);
+});
+
 test("robots policy keeps operational endpoints out of search", async () => {
   const response = await fetch(`${baseUrl}/robots.txt`);
   const robots = await response.text();

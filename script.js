@@ -472,7 +472,7 @@ document.querySelector('[data-next-step][data-submit-booking]')?.addEventListene
     if (message) message.textContent = error.message;
     button.disabled = false;
     button.removeAttribute("aria-busy");
-    button.textContent = "Review request →";
+    button.textContent = "Send booking request →";
   }
 });
 
