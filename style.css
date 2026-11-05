@@ -171,6 +171,7 @@ h1 em, h2 em { font-style: normal; }
 .booking-step { display: none; }
 .booking-step.active { display: block; }
 .booking-step h2 { font-size: 45px; }
+.field-hint { margin: 8px 0 0; font-size: 11px; }
 .choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .choice { border: 1px solid rgba(0,0,0,.25); padding: 18px; color: var(--black); background: rgba(255,255,255,.25); text-align: left; }
 .choice strong { display: block; font-family: var(--display); font-size: 20px; font-weight: 700; }

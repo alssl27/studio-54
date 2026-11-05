@@ -211,6 +211,13 @@ test("booking hides inactive steps from assistive technology", async () => {
   assert.match(booking, /role="listitem" aria-current="step"/);
 });
 
+test("booking date guidance describes the available-time picker", async () => {
+  const booking = await (await fetch(`${baseUrl}/booking.html`)).text();
+
+  assert.match(booking, /aria-describedby="booking-date-hint"/);
+  assert.match(booking, /id="available-times" role="group" aria-label="Available appointment times"/);
+});
+
 test("clearing the booking date invalidates availability work", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
