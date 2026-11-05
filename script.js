@@ -199,7 +199,12 @@ const matcherForm = document.querySelector("#matcher-form");
 const matcherUpload = document.querySelector("#matcher-upload");
 const uploadPreview = document.querySelector(".upload-preview");
 const matcherNotes = matcherForm?.querySelector("#style-notes");
-matcherNotes?.addEventListener("input", () => matcherNotes.setCustomValidity(""));
+const matcherNotesError = matcherForm?.querySelector("#matcher-notes-error");
+matcherNotes?.addEventListener("input", () => {
+  matcherNotes.setCustomValidity("");
+  matcherNotes.removeAttribute("aria-invalid");
+  if (matcherNotesError) matcherNotesError.textContent = "";
+});
 matcherUpload?.addEventListener("change", () => {
   const file = matcherUpload.files?.[0];
   if (!file) return;
@@ -222,10 +227,14 @@ matcherForm?.addEventListener("submit", (event) => {
   const notes = matcherNotes;
   if (notes && !notes.value.trim()) {
     notes.setCustomValidity("Tell us what you love so we can prepare your considered edit.");
+    notes.setAttribute("aria-invalid", "true");
+    if (matcherNotesError) matcherNotesError.textContent = "Tell us what you love so we can prepare your considered edit.";
     notes.reportValidity();
     return;
   }
   notes?.setCustomValidity("");
+  notes?.removeAttribute("aria-invalid");
+  if (matcherNotesError) matcherNotesError.textContent = "";
   const recommendation = document.querySelector(".recommendation");
   recommendation?.classList.add("is-visible");
   recommendation?.scrollIntoView({ behavior: "smooth", block: "nearest" });

@@ -150,6 +150,16 @@ test("style consultation feedback regions announce updates", async () => {
   assert.match(matcher, /class="upload-preview" aria-live="polite"/);
 });
 
+test("style consultation notes expose linked validation feedback", async () => {
+  const matcher = await (await fetch(`${baseUrl}/matcher.html`)).text();
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(matcher, /id="style-notes" aria-describedby="matcher-notes-error"/);
+  assert.match(matcher, /id="matcher-notes-error" role="status" aria-live="polite"/);
+  assert.match(script, /notes\.setAttribute\("aria-invalid", "true"\)/);
+  assert.match(script, /matcherNotesError\) matcherNotesError\.textContent = ""/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
