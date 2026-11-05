@@ -228,6 +228,14 @@ test("booking panels have explicit accessible names", async () => {
   assert.match(booking, /aria-labelledby="booking-confirmation-heading"/);
 });
 
+test("booking choices announce the selected option", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /booking-selection-status visually-hidden/);
+  assert.match(script, /status\.textContent = `\$\{value\} selected\.`/);
+  assert.match(script, /announceBookingSelection\(choice\.parentElement, selectedValue\)/);
+});
+
 test("clearing the booking date invalidates availability work", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 

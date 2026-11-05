@@ -215,6 +215,17 @@ const bookingStatus = (grid, text) => {
   }
   status.textContent = text;
 };
+const announceBookingSelection = (grid, value) => {
+  let status = grid.parentElement.querySelector(".booking-selection-status");
+  if (!status) {
+    status = document.createElement("p");
+    status.className = "booking-selection-status visually-hidden";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    grid.after(status);
+  }
+  status.textContent = `${value} selected.`;
+};
 const renderBookingChoices = (grid, choices) => {
   grid.setAttribute("aria-busy", "false");
   grid.replaceChildren(...choices.map(({ value, detail }) => {
@@ -316,6 +327,7 @@ document.addEventListener("click", (event) => {
   if (stepIndex === 0) bookingData.treatment = selectedValue;
   if (stepIndex === 1) bookingData.stylist = selectedValue;
   if (stepIndex === 2) bookingData.appointmentTime = selectedValue;
+  announceBookingSelection(choice.parentElement, selectedValue);
 });
 
 bookingDate?.addEventListener("change", async () => {
