@@ -54,6 +54,33 @@ test("all public pages load successfully", async () => {
   }
 });
 
+test("internal HTML links resolve successfully", async () => {
+  const pages = [
+    "index.html",
+    "services.html",
+    "gallery.html",
+    "matcher.html",
+    "booking.html",
+    "about.html",
+    "contact.html",
+    "products.html",
+    "tutorials.html",
+  ];
+  const internalLinks = new Set();
+
+  for (const page of pages) {
+    const markup = await (await fetch(`${baseUrl}/${page}`)).text();
+    for (const match of markup.matchAll(/href="([^"#?]+\.html)"/gi)) {
+      internalLinks.add(match[1]);
+    }
+  }
+
+  for (const target of internalLinks) {
+    const response = await fetch(`${baseUrl}/${target}`);
+    assert.equal(response.status, 200, `${target} should resolve successfully`);
+  }
+});
+
 test("public responses include baseline security headers", async () => {
   const response = await fetch(`${baseUrl}/index.html`);
 

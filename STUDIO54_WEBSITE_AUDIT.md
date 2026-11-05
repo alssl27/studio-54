@@ -187,4 +187,5 @@ No admin page or authentication route exists in the current file inventory.
 - All nine public pages now include page-specific descriptions plus theme-color, Open Graph, and Twitter card metadata; canonical URLs, structured data, and deployment metadata remain open.
 - The local hero image now declares its 828×768 intrinsic dimensions and uses asynchronous decoding; remote image optimization remains open.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
+- Final browser QA verified all nine pages render with one main landmark, seven shared navigation links, page descriptions, and social metadata. Internal HTML-link resolution is covered by the smoke suite; database-backed success/conflict flows remain unverified without PostgreSQL.
 - The approved baseline and encoding/navigation tasks changed only source-control/documentation setup and shared HTML markup; booking, matcher, and API behavior were not expanded.
