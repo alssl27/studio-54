@@ -118,6 +118,15 @@ test("homepage booking feedback is linked to the email field", async () => {
   assert.match(homepage, /class="form-message" id="booking-form-message" role="status"/);
 });
 
+test("homepage booking email feedback clears and marks invalid input", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /bookingEmailInput\?\.setAttribute\("aria-invalid", "true"\)/);
+  assert.match(script, /bookingEmailInput\?\.focus\(\)/);
+  assert.match(script, /bookingEmailInput\.removeAttribute\("aria-invalid"\)/);
+  assert.match(script, /formMessage\.textContent = ""/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 

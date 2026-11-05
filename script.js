@@ -87,12 +87,20 @@ loadServices();
 
 const bookingForm = document.querySelector("#booking-form");
 const formMessage = document.querySelector(".form-message");
+const bookingEmailInput = bookingForm?.querySelector("#booking-email");
+
+bookingEmailInput?.addEventListener("input", () => {
+  bookingEmailInput.removeAttribute("aria-invalid");
+  if (formMessage) formMessage.textContent = "";
+});
 
 bookingForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const email = new FormData(bookingForm).get("email");
   if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    bookingEmailInput?.setAttribute("aria-invalid", "true");
     formMessage.textContent = "Please enter a valid email address.";
+    bookingEmailInput?.focus();
     return;
   }
   formMessage.textContent = "Taking you to the booking journey...";
