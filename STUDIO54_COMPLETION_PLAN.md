@@ -142,6 +142,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Progress:** Added an active-slot unique index, availability membership check, and explicit HTTP 409 responses for stale or concurrently claimed slots. Database-backed concurrency tests require a configured PostgreSQL environment.
 - **Progress:** Availability reads now omit non-cancelled appointment conflicts before the customer selects a time; the database constraint and submit-time conflict response remain the final race-safe guard.
 - **Progress:** Client availability rendering now ignores late responses for previous date selections, preventing stale mobile-network responses from replacing the current date's slots.
+- **Progress:** Dynamic booking grids now expose `aria-busy` while services, stylists, or date-specific availability are loading.
 
 ### 10. Add confirmation and booking management states
 - [x] **What:** Return a stable confirmation reference and expose requested/confirmed/cancelled status handling.

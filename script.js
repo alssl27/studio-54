@@ -216,6 +216,7 @@ const bookingStatus = (grid, text) => {
   status.textContent = text;
 };
 const renderBookingChoices = (grid, choices) => {
+  grid.setAttribute("aria-busy", "false");
   grid.replaceChildren(...choices.map(({ value, detail }) => {
     const button = document.createElement("button");
     button.className = "choice";
@@ -231,6 +232,7 @@ const renderBookingChoices = (grid, choices) => {
 };
 const loadBookingData = async () => {
   if (bookingChoiceGrids.length < 2) return;
+  bookingChoiceGrids.slice(0, 2).forEach((grid) => grid.setAttribute("aria-busy", "true"));
   try {
     const [servicesResponse, stylistsResponse] = await Promise.all([
       fetch("/api/services"),
@@ -250,6 +252,7 @@ const loadBookingData = async () => {
     ]);
   } catch (error) {
     bookingChoiceGrids.slice(0, 2).forEach((grid) => {
+      grid.setAttribute("aria-busy", "false");
       grid.replaceChildren();
       bookingStatus(grid, error.message);
     });
@@ -316,6 +319,7 @@ bookingDate?.addEventListener("change", async () => {
   if (!timeGrid || !bookingDate.value) return;
   const requestId = ++availabilityRequestId;
   const requestedDate = bookingDate.value;
+  timeGrid.setAttribute("aria-busy", "true");
   timeGrid.replaceChildren();
   bookingStatus(timeGrid, "Loading available times...");
   try {
@@ -327,6 +331,7 @@ bookingDate?.addEventListener("change", async () => {
     if (!result.slots.length) bookingStatus(timeGrid, "No appointments are available on this date.");
   } catch (error) {
     if (requestId !== availabilityRequestId || bookingDate.value !== requestedDate) return;
+    timeGrid.setAttribute("aria-busy", "false");
     bookingStatus(timeGrid, error.message);
   }
 });

@@ -187,6 +187,13 @@ test("booking availability guards against stale responses", async () => {
   assert.match(script, /bookingDate\.value !== requestedDate/);
 });
 
+test("booking loading states expose aria-busy semantics", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /setAttribute\("aria-busy", "true"\)/);
+  assert.match(script, /setAttribute\("aria-busy", "false"\)/);
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",

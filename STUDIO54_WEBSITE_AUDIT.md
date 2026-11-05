@@ -175,6 +175,7 @@ No admin page or authentication route exists in the current file inventory.
 - The appointment API now rejects dates before the server's current UTC date, matching the client-side minimum-date behavior.
 - Availability responses now exclude non-cancelled appointments, reducing stale slot choices before submission; the database-backed query path remains unverified without PostgreSQL.
 - Booking date changes now guard against out-of-order availability responses, so a slower request for an earlier date cannot overwrite the current selection.
+- Dynamic booking choice grids now expose loading state through `aria-busy` for assistive technology.
 - Appointment text fields now have explicit server-side length limits in addition to the 10 KB JSON body limit.
 - The appointment endpoint now guards against `null` and array JSON bodies before destructuring request fields.
 - Malformed appointment JSON now returns a consistent JSON 400 response instead of Express’s default HTML parser error.
