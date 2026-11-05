@@ -167,6 +167,7 @@ h1 em, h2 em { font-style: normal; }
 .step-indicator { display: flex; gap: 9px; margin-bottom: 35px; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
 .step-indicator span { padding-bottom: 8px; border-bottom: 1px solid transparent; }
 .step-indicator .active { border-color: var(--black); }
+.gallery-filter-status { min-height: 18px; margin: 12px 0 0; font-size: 11px; }
 .booking-steps { max-width: 760px; margin: auto; }
 .booking-step { display: none; }
 .booking-step.active { display: block; }

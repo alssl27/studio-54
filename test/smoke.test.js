@@ -70,6 +70,15 @@ test("shared navigation marks the current page", async () => {
   assert.match(script, /link\.setAttribute\("aria-current", "page"\)/);
 });
 
+test("gallery filters announce the visible result count", async () => {
+  const gallery = await (await fetch(`${baseUrl}/gallery.html`)).text();
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(gallery, /class="gallery-filter-status" role="status" aria-live="polite"/);
+  assert.match(script, /galleryFilterStatus && \(galleryFilterStatus\.textContent =/);
+  assert.match(script, /updateGalleryFilterStatus\(category\)/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
