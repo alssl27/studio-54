@@ -177,7 +177,7 @@ test("contact form exposes recoverable native validation feedback", async () => 
 test("style consultation feedback regions announce updates", async () => {
   const matcher = await (await fetch(`${baseUrl}/matcher.html`)).text();
 
-  assert.match(matcher, /class="recommendation" role="status" aria-live="polite"/);
+  assert.match(matcher, /class="recommendation" role="status" aria-live="polite" aria-atomic="true"/);
   assert.match(matcher, /class="upload-preview" aria-live="polite"/);
 });
 
@@ -200,6 +200,7 @@ test("style consultation upload errors expose recovery state", async () => {
   assert.match(script, /uploadPreview\.querySelector\("img"\)\?\.remove\(\)/);
   assert.match(script, /uploadPreview\.prepend\(image\)/);
   assert.match(script, /uploadMessage\(/);
+  assert.match(script, /message\.setAttribute\("aria-atomic", "true"\)/);
   assert.match(script, /matcherUpload\.setAttribute\("aria-invalid", "true"\)/);
   assert.match(script, /matcherUpload\.removeAttribute\("aria-invalid"\)/);
   assert.match(styles, /\.matcher-panel input\[type="file"\]\[aria-invalid="true"\]/);

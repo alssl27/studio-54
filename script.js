@@ -213,6 +213,8 @@ const uploadMessage = (text) => {
     message = document.createElement("p");
     message.className = "upload-status";
     message.setAttribute("role", "status");
+    message.setAttribute("aria-live", "polite");
+    message.setAttribute("aria-atomic", "true");
     uploadPreview.append(message);
   }
   if (message) message.textContent = text;
