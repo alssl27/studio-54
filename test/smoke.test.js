@@ -66,6 +66,16 @@ test("team imagery uses asynchronous decoding", async () => {
   assert.equal((about.match(/decoding="async"/g) || []).length, 4);
 });
 
+test("homepage and gallery imagery use asynchronous decoding", async () => {
+  const [homepage, gallery] = await Promise.all([
+    (await fetch(`${baseUrl}/index.html`)).text(),
+    (await fetch(`${baseUrl}/gallery.html`)).text()
+  ]);
+
+  assert.equal((homepage.match(/loading="lazy"[^>]*decoding="async"/g) || []).length, 4);
+  assert.equal((gallery.match(/loading="lazy"[^>]*decoding="async"/g) || []).length, 6);
+});
+
 test("mobile navigation closes when focus moves outside the menu", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
