@@ -285,6 +285,11 @@ const bookingData = {
 };
 const bookingChoiceGrids = [...document.querySelectorAll(".booking-step .choice-grid")];
 let availabilityRequestId = 0;
+const demonstrationTimes = [
+  { value: "10:00", detail: "Demo availability" },
+  { value: "13:30", detail: "Demo availability" },
+  { value: "16:00", detail: "Demo availability" },
+];
 const bookingStatus = (grid, text) => {
   let status = grid.parentElement.querySelector(".booking-data-status");
   if (!status) {
@@ -417,6 +422,7 @@ document.addEventListener("click", (event) => {
 
 bookingDate?.addEventListener("change", async () => {
   bookingData.appointmentDate = bookingDate.value;
+  bookingData.appointmentTime = "";
   const timeGrid = bookingChoiceGrids[2];
   const requestId = ++availabilityRequestId;
   if (!timeGrid || !bookingDate.value) {
@@ -440,7 +446,12 @@ bookingDate?.addEventListener("change", async () => {
   } catch (error) {
     if (requestId !== availabilityRequestId || bookingDate.value !== requestedDate) return;
     timeGrid.setAttribute("aria-busy", "false");
-    bookingStatus(timeGrid, error.message);
+    if (error.message.includes("Booking data is not configured")) {
+      renderBookingChoices(timeGrid, demonstrationTimes);
+      bookingStatus(timeGrid, "Showing demonstration times. Connect booking storage before accepting appointments.");
+    } else {
+      bookingStatus(timeGrid, error.message);
+    }
   }
 });
 

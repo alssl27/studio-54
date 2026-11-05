@@ -491,6 +491,15 @@ test("clearing the booking date invalidates availability work", async () => {
   assert.match(script, /timeGrid\?\.replaceChildren\(\)/);
 });
 
+test("booking restores demonstration times when availability storage is unavailable", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /const demonstrationTimes = \[/);
+  assert.match(script, /bookingData\.appointmentTime = ""/);
+  assert.match(script, /renderBookingChoices\(timeGrid, demonstrationTimes\)/);
+  assert.match(script, /Connect booking storage before accepting appointments/);
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",
