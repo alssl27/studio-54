@@ -95,6 +95,12 @@ test("gallery lightbox names the open image", async () => {
   assert.match(script, /lightbox\?\.setAttribute\("aria-label", "Enlarged gallery image"\)/);
 });
 
+test("homepage booking capture has an explicit email label", async () => {
+  const homepage = await (await fetch(`${baseUrl}/index.html`)).text();
+
+  assert.match(homepage, /<label class="visually-hidden" for="booking-email">Email address<\/label>/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
