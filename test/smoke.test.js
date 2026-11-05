@@ -463,6 +463,15 @@ test("booking choices announce the selected option", async () => {
   assert.match(script, /announceBookingSelection\(choice\.parentElement, selectedValue\)/);
 });
 
+test("booking submission includes the customer details entered in the final step", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /const customerName = document\.querySelector\("#guest-name"\)/);
+  assert.match(script, /const customerEmail = document\.querySelector\("#guest-email"\)/);
+  assert.match(script, /bookingData\.customerName = customerName\.value\.trim\(\)/);
+  assert.match(script, /bookingData\.customerEmail = customerEmail\.value\.trim\(\)/);
+});
+
 test("clearing the booking date invalidates availability work", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 

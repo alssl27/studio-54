@@ -448,6 +448,15 @@ bookingDate?.addEventListener("change", async () => {
 document.querySelector('[data-next-step][data-submit-booking]')?.addEventListener("click", async (event) => {
   event.preventDefault();
   const button = event.currentTarget;
+  const customerName = document.querySelector("#guest-name");
+  const customerEmail = document.querySelector("#guest-email");
+  const invalidField = [customerName, customerEmail].find((field) => !field?.value.trim() || !field.checkValidity());
+  if (invalidField) {
+    invalidField.reportValidity();
+    return;
+  }
+  bookingData.customerName = customerName.value.trim();
+  bookingData.customerEmail = customerEmail.value.trim();
   button.disabled = true;
   button.setAttribute("aria-busy", "true");
   button.textContent = "Sending request...";
