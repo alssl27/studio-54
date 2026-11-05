@@ -54,6 +54,13 @@ test("all public pages load successfully", async () => {
   }
 });
 
+test("booking completion copy describes a pending request", async () => {
+  const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
+
+  assert.match(markup, /pending confirmation from the house/);
+  assert.doesNotMatch(markup, /does not confirm availability/);
+});
+
 test("robots policy keeps operational endpoints out of search", async () => {
   const response = await fetch(`${baseUrl}/robots.txt`);
   const robots = await response.text();
