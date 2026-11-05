@@ -60,6 +60,12 @@ test("product imagery uses asynchronous decoding", async () => {
   assert.equal((products.match(/decoding="async"/g) || []).length, 3);
 });
 
+test("team imagery uses asynchronous decoding", async () => {
+  const about = await (await fetch(`${baseUrl}/about.html`)).text();
+
+  assert.equal((about.match(/decoding="async"/g) || []).length, 4);
+});
+
 test("mobile navigation closes when focus moves outside the menu", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
