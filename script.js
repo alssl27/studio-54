@@ -203,6 +203,7 @@ const bookingData = {
   appointmentTime: "",
 };
 const bookingChoiceGrids = [...document.querySelectorAll(".booking-step .choice-grid")];
+let availabilityRequestId = 0;
 const bookingStatus = (grid, text) => {
   let status = grid.parentElement.querySelector(".booking-data-status");
   if (!status) {
@@ -313,15 +314,19 @@ bookingDate?.addEventListener("change", async () => {
   bookingData.appointmentDate = bookingDate.value;
   const timeGrid = bookingChoiceGrids[2];
   if (!timeGrid || !bookingDate.value) return;
+  const requestId = ++availabilityRequestId;
+  const requestedDate = bookingDate.value;
   timeGrid.replaceChildren();
   bookingStatus(timeGrid, "Loading available times...");
   try {
-    const response = await fetch(`/api/availability?date=${encodeURIComponent(bookingDate.value)}`);
+    const response = await fetch(`/api/availability?date=${encodeURIComponent(requestedDate)}`);
     const result = await response.json();
+    if (requestId !== availabilityRequestId || bookingDate.value !== requestedDate) return;
     if (!response.ok) throw new Error(result.error || "Availability could not be loaded.");
     renderBookingChoices(timeGrid, result.slots.map((time) => ({ value: time, detail: "Available" })));
     if (!result.slots.length) bookingStatus(timeGrid, "No appointments are available on this date.");
   } catch (error) {
+    if (requestId !== availabilityRequestId || bookingDate.value !== requestedDate) return;
     bookingStatus(timeGrid, error.message);
   }
 });

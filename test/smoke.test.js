@@ -180,6 +180,13 @@ test("availability query excludes active appointment conflicts", async () => {
   assert.match(source, /status <> 'cancelled'/);
 });
 
+test("booking availability guards against stale responses", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /availabilityRequestId/);
+  assert.match(script, /bookingDate\.value !== requestedDate/);
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",
