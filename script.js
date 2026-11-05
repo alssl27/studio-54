@@ -316,8 +316,12 @@ document.addEventListener("click", (event) => {
 bookingDate?.addEventListener("change", async () => {
   bookingData.appointmentDate = bookingDate.value;
   const timeGrid = bookingChoiceGrids[2];
-  if (!timeGrid || !bookingDate.value) return;
   const requestId = ++availabilityRequestId;
+  if (!timeGrid || !bookingDate.value) {
+    timeGrid?.replaceChildren();
+    timeGrid?.removeAttribute("aria-busy");
+    return;
+  }
   const requestedDate = bookingDate.value;
   timeGrid.setAttribute("aria-busy", "true");
   timeGrid.replaceChildren();

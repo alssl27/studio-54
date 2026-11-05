@@ -143,6 +143,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Progress:** Availability reads now omit non-cancelled appointment conflicts before the customer selects a time; the database constraint and submit-time conflict response remain the final race-safe guard.
 - **Progress:** Client availability rendering now ignores late responses for previous date selections, preventing stale mobile-network responses from replacing the current date's slots.
 - **Progress:** Dynamic booking grids now expose `aria-busy` while services, stylists, or date-specific availability are loading.
+- **Progress:** Clearing a booking date now invalidates in-flight availability work and removes previously rendered time choices.
 
 ### 10. Add confirmation and booking management states
 - [x] **What:** Return a stable confirmation reference and expose requested/confirmed/cancelled status handling.

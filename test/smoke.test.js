@@ -194,6 +194,13 @@ test("booking loading states expose aria-busy semantics", async () => {
   assert.match(script, /setAttribute\("aria-busy", "false"\)/);
 });
 
+test("clearing the booking date invalidates availability work", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /const requestId = \+\+availabilityRequestId;\s*if \(!timeGrid \|\| !bookingDate\.value\)/);
+  assert.match(script, /timeGrid\?\.replaceChildren\(\)/);
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",
