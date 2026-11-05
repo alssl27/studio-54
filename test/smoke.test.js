@@ -123,8 +123,10 @@ test("homepage booking email feedback clears and marks invalid input", async () 
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
   assert.match(script, /bookingEmailInput\?\.setAttribute\("aria-invalid", "true"\)/);
+  assert.match(script, /bookingEmailInput\?\.setAttribute\("aria-errormessage", "booking-form-message"\)/);
   assert.match(script, /bookingEmailInput\?\.focus\(\)/);
   assert.match(script, /bookingEmailInput\.removeAttribute\("aria-invalid"\)/);
+  assert.match(script, /bookingEmailInput\.removeAttribute\("aria-errormessage"\)/);
   assert.match(script, /formMessage\.textContent = ""/);
   assert.match(script, /bookingEmailInput\?\.addEventListener\("invalid"/);
 });

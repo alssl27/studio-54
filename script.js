@@ -91,10 +91,12 @@ const bookingEmailInput = bookingForm?.querySelector("#booking-email");
 
 bookingEmailInput?.addEventListener("input", () => {
   bookingEmailInput.removeAttribute("aria-invalid");
+  bookingEmailInput.removeAttribute("aria-errormessage");
   if (formMessage) formMessage.textContent = "";
 });
 bookingEmailInput?.addEventListener("invalid", () => {
   bookingEmailInput.setAttribute("aria-invalid", "true");
+  bookingEmailInput.setAttribute("aria-errormessage", "booking-form-message");
   if (formMessage) formMessage.textContent = "Please enter a valid email address.";
 });
 
@@ -103,6 +105,7 @@ bookingForm?.addEventListener("submit", (event) => {
   const email = new FormData(bookingForm).get("email");
   if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     bookingEmailInput?.setAttribute("aria-invalid", "true");
+    bookingEmailInput?.setAttribute("aria-errormessage", "booking-form-message");
     formMessage.textContent = "Please enter a valid email address.";
     bookingEmailInput?.focus();
     return;
