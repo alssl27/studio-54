@@ -143,6 +143,13 @@ test("contact form exposes linked sending feedback", async () => {
   assert.match(script, /button\.textContent = "Sending enquiry\.\.\."/);
 });
 
+test("style consultation feedback regions announce updates", async () => {
+  const matcher = await (await fetch(`${baseUrl}/matcher.html`)).text();
+
+  assert.match(matcher, /class="recommendation" role="status" aria-live="polite"/);
+  assert.match(matcher, /class="upload-preview" aria-live="polite"/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
