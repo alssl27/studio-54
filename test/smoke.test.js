@@ -79,6 +79,15 @@ test("gallery filters announce the visible result count", async () => {
   assert.match(script, /updateGalleryFilterStatus\(category\)/);
 });
 
+test("gallery lightbox synchronizes its dialog visibility", async () => {
+  const gallery = await (await fetch(`${baseUrl}/gallery.html`)).text();
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(gallery, /role="dialog" aria-modal="true" aria-hidden="true"/);
+  assert.match(script, /lightbox\.setAttribute\("aria-hidden", "false"\)/);
+  assert.match(script, /lightbox\?\.setAttribute\("aria-hidden", "true"\)/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 

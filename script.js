@@ -134,8 +134,9 @@ document.querySelectorAll("[data-lightbox]").forEach((image) => {
     lightboxTrigger = image;
     lightboxImage.src = image.src;
     lightboxImage.alt = image.alt;
-    lightbox.classList.add("is-visible");
-    lightbox.querySelector(".lightbox-close")?.focus();
+      lightbox.setAttribute("aria-hidden", "false");
+      lightbox.classList.add("is-visible");
+      lightbox.querySelector(".lightbox-close")?.focus();
   };
   image.addEventListener("click", () => {
     openLightbox();
@@ -147,7 +148,10 @@ document.querySelectorAll("[data-lightbox]").forEach((image) => {
     }
   });
 });
-const closeLightbox = () => lightbox?.classList.remove("is-visible");
+const closeLightbox = () => {
+  lightbox?.classList.remove("is-visible");
+  lightbox?.setAttribute("aria-hidden", "true");
+};
 document.querySelector(".lightbox-close")?.addEventListener("click", () => {
   closeLightbox();
   lightboxTrigger?.focus();
