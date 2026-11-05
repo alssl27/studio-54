@@ -66,6 +66,16 @@ test("public responses include baseline security headers", async () => {
   assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
 });
 
+test("health endpoint reports application readiness", async () => {
+  const response = await fetch(`${baseUrl}/healthz`);
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), {
+    status: "ok",
+    databaseConfigured: false,
+  });
+});
+
 test("booking data APIs report unavailable storage clearly", async () => {
   for (const endpoint of ["/api/services", "/api/stylists"]) {
     const response = await fetch(`${baseUrl}${endpoint}`);

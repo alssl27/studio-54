@@ -15,7 +15,7 @@ Install dependencies:
 npm install
 ```
 
-Create a local `.env` file from `.env.example` and set `DATABASE_URL` when using the booking API.
+Create a local `.env` file from `.env.example` and set `DATABASE_URL` when using booking, contact, and availability storage. Never commit `.env`.
 
 Start the site:
 
@@ -45,3 +45,7 @@ The current tests intentionally verify the documented no-database behavior. Book
 - `assets/` — local image assets
 
 The current booking and matcher experiences are prototypes. See `STUDIO54_WEBSITE_AUDIT.md` and `STUDIO54_COMPLETION_PLAN.md` for known limitations and the gated completion roadmap.
+
+## Operations
+
+See [`DEPLOYMENT.md`](DEPLOYMENT.md) for environment setup, schema migration, health checks, backups, logs, rollback, and deployment verification.

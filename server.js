@@ -28,6 +28,13 @@ app.use((error, request, response, next) => {
 });
 app.use(express.static(__dirname));
 
+app.get("/healthz", (request, response) => {
+  response.json({
+    status: "ok",
+    databaseConfigured: Boolean(pool),
+  });
+});
+
 app.get("/api/services", async (request, response) => {
   if (!pool) {
     return response.status(503).json({ error: "Booking data is not configured. Add DATABASE_URL to .env." });

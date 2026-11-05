@@ -200,11 +200,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 ## Phase 9 — Prepare for deployment
 
 ### 16. Document operations and deployment
-- [ ] **What:** Document environment variables, migrations, backups, logs, monitoring, rollback, and deployment steps.
+- [x] **What:** Document environment variables, migrations, backups, logs, monitoring, rollback, and deployment steps.
 - **Why:** A working local prototype is not enough for a reliable salon service.
 - **Files:** `.env.example`, deployment documentation, `server.js`, database migration files.
 - **Expected result:** Another developer can deploy and operate the site without guessing.
 - **Success test:** Fresh-environment deployment rehearsal succeeds and secrets are not committed.
+- **Progress:** Added `DEPLOYMENT.md`, a placeholder-only `.env.example`, additive schema instructions, backup/rollback guidance, and a `/healthz` readiness endpoint with regression coverage. A real production rehearsal still requires an approved hosting provider and PostgreSQL instance.
 
 ## Recommended execution order
 
