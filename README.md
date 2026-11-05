@@ -41,6 +41,8 @@ The current tests intentionally verify the documented no-database behavior. Book
 - `style.css` — shared visual system and responsive rules
 - `script.js` — shared browser interactions
 - `server.js` — Express static server and appointment API
+- `admin.html`, `admin.js` — protected staff dashboard for operational review
+- `auth.js` — password hashing and session token helpers
 - `db/schema.sql` — PostgreSQL tables and indexes
 - `assets/` — local image assets
 - `robots.txt` — crawler policy for public pages and operational endpoints
@@ -50,3 +52,9 @@ The current booking and matcher experiences are prototypes. See `STUDIO54_WEBSIT
 ## Operations
 
 See [`DEPLOYMENT.md`](DEPLOYMENT.md) for environment setup, schema migration, health checks, backups, logs, rollback, and deployment verification.
+
+Create the first staff account only after migrating the database:
+
+```powershell
+npm run create-staff-user
+```

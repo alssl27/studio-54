@@ -65,3 +65,22 @@ CREATE TABLE IF NOT EXISTS contact_enquiries (
 
 CREATE INDEX IF NOT EXISTS contact_enquiries_created_idx
   ON contact_enquiries (created_at DESC);
+
+CREATE TABLE IF NOT EXISTS staff_users (
+  id SERIAL PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'staff' CHECK (role IN ('staff', 'admin')),
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS staff_sessions (
+  token_hash TEXT PRIMARY KEY,
+  staff_user_id INTEGER NOT NULL REFERENCES staff_users(id) ON DELETE CASCADE,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS staff_sessions_expiry_idx
+  ON staff_sessions (expires_at);

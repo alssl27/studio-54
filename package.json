@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
+    "create-staff-user": "node scripts/create-staff-user.js",
     "test": "node --test"
   },
   "dependencies": {

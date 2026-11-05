@@ -42,6 +42,7 @@ test("all public pages load successfully", async () => {
     "contact.html",
     "products.html",
     "tutorials.html",
+    "admin.html",
   ];
 
   for (const page of pages) {
@@ -74,6 +75,32 @@ test("homepage and gallery imagery use asynchronous decoding", async () => {
 
   assert.equal((homepage.match(/loading="lazy"[^>]*decoding="async"/g) || []).length, 4);
   assert.equal((gallery.match(/loading="lazy"[^>]*decoding="async"/g) || []).length, 6);
+});
+
+test("staff endpoints fail closed without configured storage", async () => {
+  const login = await fetch(`${baseUrl}/api/staff/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: "staff@example.com", password: "correct horse battery staple" }),
+  });
+  assert.equal(login.status, 503);
+  assert.match((await login.json()).error, /DATABASE_URL/);
+
+  const appointments = await fetch(`${baseUrl}/api/staff/appointments`);
+  assert.equal(appointments.status, 503);
+  assert.match((await appointments.json()).error, /DATABASE_URL/);
+});
+
+test("staff dashboard avoids inline handlers and exposes protected controls", async () => {
+  const [admin, adminScript] = await Promise.all([
+    (await fetch(`${baseUrl}/admin.html`)).text(),
+    (await fetch(`${baseUrl}/admin.js`)).text(),
+  ]);
+  assert.match(admin, /id="staff-login"/);
+  assert.match(admin, /id="staff-dashboard"/);
+  assert.match(adminScript, /\/api\/staff\/appointments/);
+  assert.match(adminScript, /\/api\/staff\/enquiries/);
+  assert.doesNotMatch(adminScript, /innerHTML/);
 });
 
 test("mobile navigation closes when focus moves outside the menu", async () => {
@@ -267,6 +294,7 @@ test("robots policy keeps operational endpoints out of search", async () => {
   assert.match(robots, /Allow: \//);
   assert.match(robots, /Disallow: \/api\//);
   assert.match(robots, /Disallow: \/healthz/);
+  assert.match(robots, /Disallow: \/admin\.html/);
 });
 
 test("internal HTML links resolve successfully", async () => {

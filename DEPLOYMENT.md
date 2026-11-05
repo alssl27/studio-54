@@ -1,6 +1,6 @@
 # STUDIO 54 deployment runbook
 
-This runbook covers the current Express/PostgreSQL prototype. Production business content, staff authentication, email delivery, and a managed deployment platform are not included yet.
+This runbook covers the current Express/PostgreSQL prototype. Production business content, email delivery, and a managed deployment platform are not included yet. A protected staff dashboard is included for appointment status and enquiry review.
 
 ## Environment
 
@@ -16,6 +16,7 @@ Copy `.env.example` to `.env`, replace the placeholder connection string, and ke
 ```powershell
 npm ci
 psql "$env:DATABASE_URL" -f db/schema.sql
+npm run create-staff-user
 ```
 
 The schema uses `CREATE TABLE IF NOT EXISTS`, `CREATE INDEX IF NOT EXISTS`, and an additive `ALTER TABLE` for the confirmation reference. Before applying it to an existing database, inspect non-cancelled appointment duplicates because the active-slot unique index requires one appointment per date/time.
@@ -51,4 +52,5 @@ The server writes startup and database-operation failures to standard output/err
 3. Run `psql "$env:DATABASE_URL" -f db/schema.sql` against a backup-protected database.
 4. Start the server and verify `/healthz`.
 5. Run `npm test` and smoke-test booking, contact, and availability flows.
-6. Confirm CSP, HTTPS termination, log retention, backups, and rollback ownership with the hosting provider.
+6. Open `/admin.html` and verify staff login, appointment status updates, and enquiry visibility over HTTPS.
+7. Confirm CSP, HTTPS termination, log retention, backups, and rollback ownership with the hosting provider.

@@ -217,6 +217,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** Another developer can deploy and operate the site without guessing.
 - **Success test:** Fresh-environment deployment rehearsal succeeds and secrets are not committed.
 - **Progress:** Added `DEPLOYMENT.md`, a placeholder-only `.env.example`, additive schema instructions, backup/rollback guidance, and a `/healthz` readiness endpoint with regression coverage. A real production rehearsal still requires an approved hosting provider and PostgreSQL instance.
+- **Progress:** Added database-backed staff password hashing, expiring HttpOnly sessions, protected appointment status/enquiry endpoints, a private dashboard, and a `npm run create-staff-user` bootstrap command. Production HTTPS and database migration remain required before use.
 
 ## Recommended execution order
 

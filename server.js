@@ -1,8 +1,12 @@
 const path = require("node:path");
-const { randomBytes } = require("node:crypto");
 const express = require("express");
 const { Pool } = require("pg");
 require("dotenv").config();
+const {
+  createSessionToken,
+  hashSessionToken,
+  verifyPassword,
+} = require("./auth");
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -34,6 +38,136 @@ app.get("/healthz", (request, response) => {
     databaseConfigured: Boolean(pool),
   });
 });
+
+const getSessionToken = (request) => {
+    const cookie = request.headers.cookie?.split(";").map((part) => part.trim())
+      .find((part) => part.startsWith("studio54_staff_session="));
+    return cookie?.slice("studio54_staff_session=".length) || null;
+  };
+
+const requireStaff = async (request, response, next) => {
+    if (!pool) {
+      return response.status(503).json({ error: "Staff storage is not configured. Add DATABASE_URL to .env." });
+    }
+    const token = getSessionToken(request);
+    if (!token) return response.status(401).json({ error: "Staff authentication is required." });
+    try {
+      const result = await pool.query(
+        `SELECT staff_users.id, staff_users.email, staff_users.role
+         FROM staff_sessions
+         JOIN staff_users ON staff_users.id = staff_sessions.staff_user_id
+         WHERE staff_sessions.token_hash = $1
+           AND staff_sessions.expires_at > NOW()
+           AND staff_users.active = TRUE`,
+        [hashSessionToken(token)],
+      );
+      if (result.rowCount === 0) return response.status(401).json({ error: "Staff authentication is required." });
+      request.staff = result.rows[0];
+      return next();
+    } catch (error) {
+      console.error("Staff authentication lookup failed:", error);
+      return response.status(500).json({ error: "Staff authentication could not be checked." });
+    }
+  };
+
+app.post("/api/staff/login", async (request, response) => {
+    if (!pool) {
+      return response.status(503).json({ error: "Staff storage is not configured. Add DATABASE_URL to .env." });
+    }
+    const { email, password } = request.body || {};
+    if (typeof email !== "string" || typeof password !== "string" || !email.trim() || !password) {
+      return response.status(400).json({ error: "Email and password are required." });
+    }
+    try {
+      const result = await pool.query(
+        `SELECT id, email, role, password_hash
+         FROM staff_users WHERE email = $1 AND active = TRUE`,
+        [email.trim().toLowerCase()],
+      );
+      const user = result.rows[0];
+      if (!user || !verifyPassword(password, user.password_hash)) {
+        return response.status(401).json({ error: "Email or password is incorrect." });
+      }
+      const token = createSessionToken();
+      await pool.query(
+        `INSERT INTO staff_sessions (staff_user_id, token_hash, expires_at)
+         VALUES ($1, $2, NOW() + INTERVAL '8 hours')`,
+        [user.id, hashSessionToken(token)],
+      );
+      response.setHeader("Set-Cookie", `studio54_staff_session=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=28800${process.env.NODE_ENV === "production" ? "; Secure" : ""}`);
+      return response.json({ staff: { email: user.email, role: user.role } });
+    } catch (error) {
+      console.error("Staff login failed:", error);
+      return response.status(500).json({ error: "Staff login could not be completed." });
+    }
+  });
+
+app.post("/api/staff/logout", async (request, response) => {
+    const token = getSessionToken(request);
+    try {
+      if (pool && token) {
+        await pool.query("DELETE FROM staff_sessions WHERE token_hash = $1", [hashSessionToken(token)]);
+      }
+    } catch (error) {
+      console.error("Staff logout failed:", error);
+      return response.status(500).json({ error: "Staff logout could not be completed." });
+    }
+    response.setHeader("Set-Cookie", "studio54_staff_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
+    return response.status(204).end();
+  });
+
+app.get("/api/staff/session", requireStaff, (request, response) => {
+    response.json({ staff: request.staff });
+  });
+
+app.get("/api/staff/appointments", requireStaff, async (request, response) => {
+    try {
+      const result = await pool.query(
+        `SELECT id, treatment, stylist, appointment_date, appointment_time,
+                customer_name, customer_email, confirmation_reference, status, created_at
+         FROM appointments ORDER BY appointment_date, appointment_time`,
+      );
+      return response.json({ appointments: result.rows });
+    } catch (error) {
+      console.error("Staff appointment lookup failed:", error);
+      return response.status(500).json({ error: "Appointments could not be loaded." });
+    }
+  });
+
+app.patch("/api/staff/appointments/:id", requireStaff, async (request, response) => {
+    const { status } = request.body || {};
+    if (!["requested", "confirmed", "cancelled"].includes(status)) {
+      return response.status(400).json({ error: "Appointment status is invalid." });
+    }
+    try {
+      const result = await pool.query(
+        `UPDATE appointments SET status = $1 WHERE id = $2
+         RETURNING id, status, confirmation_reference`,
+        [status, request.params.id],
+      );
+      if (result.rowCount === 0) return response.status(404).json({ error: "Appointment not found." });
+      return response.json({ appointment: result.rows[0] });
+    } catch (error) {
+      if (error.code === "23505" && error.constraint === "appointments_active_slot_idx") {
+        return response.status(409).json({ error: "That appointment time conflicts with another active appointment." });
+      }
+      console.error("Staff appointment update failed:", error);
+      return response.status(500).json({ error: "Appointment status could not be updated." });
+    }
+  });
+
+app.get("/api/staff/enquiries", requireStaff, async (request, response) => {
+    try {
+      const result = await pool.query(
+        `SELECT id, customer_name, customer_email, message, status, created_at
+         FROM contact_enquiries ORDER BY created_at DESC`,
+      );
+      return response.json({ enquiries: result.rows });
+    } catch (error) {
+      console.error("Staff enquiry lookup failed:", error);
+      return response.status(500).json({ error: "Enquiries could not be loaded." });
+    }
+  });
 
 app.get("/api/services", async (request, response) => {
   if (!pool) {

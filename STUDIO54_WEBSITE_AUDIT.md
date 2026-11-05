@@ -155,8 +155,9 @@ No admin page or authentication route exists in the current file inventory.
 - [x] **High:** Prevent duplicate/conflicting bookings.
 - [x] **High:** Add booking confirmation and operational status handling.
 - [x] **High:** Decide and implement the matcher scope with privacy controls.
-- [ ] **High:** Define and implement secure staff authentication/authorisation.
-- [ ] **Medium:** Add staff management for services, stylists, availability, bookings, and gallery content.
+- [x] **High:** Define and implement secure staff authentication/authorisation.
+- [ ] **Medium:** Add staff management for services, stylists, availability, and gallery content.
+- [x] **Medium:** Add staff review controls for booking statuses and contact enquiries.
 - [x] **Medium:** Repair encoding and unify shared branding/navigation/footer.
 - [x] **Medium:** Implement server-side contact enquiries.
 - [x] **Medium:** Add automated tests, linting, and accessibility checks (automated tests and browser QA completed; no lint tool configured).
@@ -171,6 +172,7 @@ No admin page or authentication route exists in the current file inventory.
 - All nine pages now expose the same primary and secondary navigation labels, and malformed encoding sequences were removed from the HTML files.
 - `npm test` now provides dependency-free smoke coverage for all public pages, the documented booking API validation/storage states, and asynchronous decoding on all editorial imagery (54 tests passing).
 - Booking smoke coverage now also protects malformed email and date/time validation responses.
+- Staff operations now use scrypt password hashes, expiring database-backed sessions, HttpOnly cookies, protected appointment status updates, and protected enquiry review endpoints. The dashboard is excluded from crawler indexing.
 - The appointment API now validates actual calendar dates and 24-hour time ranges instead of checking only string shape.
 - The appointment API now rejects dates before the server's current UTC date, matching the client-side minimum-date behavior.
 - Availability responses now exclude non-cancelled appointments, reducing stale slot choices before submission; the database-backed query path remains unverified without PostgreSQL.

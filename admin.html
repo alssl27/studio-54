@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Private STUDIO 54 staff dashboard."><title>Staff Dashboard | STUDIO 54</title><meta property="og:title" content="Staff Dashboard | STUDIO 54"><meta property="og:description" content="Private STUDIO 54 staff dashboard."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="style.css"></head>
+<body><main id="main-content" class="page-content"><div class="container admin-shell">
+  <p class="eyebrow">Private staff area</p><h1>House <em>dashboard.</em></h1>
+  <form id="staff-login" class="admin-login">
+    <label for="staff-email">Email address</label><input id="staff-email" type="email" autocomplete="username" required>
+    <label for="staff-password">Password</label><input id="staff-password" type="password" autocomplete="current-password" required minlength="12">
+    <button class="button" type="submit">Sign in</button><p id="staff-status" class="booking-error" role="status" aria-live="polite"></p>
+  </form>
+  <section id="staff-dashboard" hidden aria-labelledby="dashboard-heading">
+    <div class="admin-toolbar"><h2 id="dashboard-heading">Bookings &amp; enquiries</h2><button id="staff-logout" class="button button-light" type="button">Sign out</button></div>
+    <h3>Appointments</h3><div id="appointment-list"></div><h3>Enquiries</h3><div id="enquiry-list"></div>
+  </section>
+</div></main><script src="admin.js"></script></body></html>
