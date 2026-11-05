@@ -77,7 +77,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - [x] **What:** Add current-step semantics, live step-region guidance, and an accessible busy state during booking submission.
 - **Why:** Customers and assistive technologies need clear progress and feedback during the multi-step flow.
 - **Files:** `booking.html`, `script.js`.
-- **Expected result:** The active step is announced and the submit request communicates its in-progress state.
+- **Expected result:** The active step is announced, inactive steps are hidden from assistive technology, progress is exposed as a list, and the submit request communicates its in-progress state.
 - **Success test:** Browser checks confirm `aria-current` moves with the step and `aria-busy` is applied during submission.
 
 ### 10a. Tighten appointment date and time validation
