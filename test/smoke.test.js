@@ -98,7 +98,9 @@ test("gallery lightbox names the open image", async () => {
 test("homepage booking capture has an explicit email label", async () => {
   const homepage = await (await fetch(`${baseUrl}/index.html`)).text();
 
-  assert.match(homepage, /<label class="visually-hidden" for="booking-email">Email address<\/label>/);
+  assert.match(homepage, /<label for="booking-email">Start with your email<\/label>/);
+  assert.match(homepage, /id="booking-email"[^>]+inputmode="email"[^>]+enterkeyhint="next"/);
+  assert.doesNotMatch(homepage, /class="visually-hidden" for="booking-email"/);
 });
 
 test("booking completion copy describes a pending request", async () => {
