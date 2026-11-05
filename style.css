@@ -170,6 +170,9 @@ h1 em, h2 em { font-style: normal; }
 .recommendation { display: none; margin-top: 30px; padding: 25px; color: var(--white); background: var(--black); }
 .recommendation.is-visible { display: block; }
 .recommendation h3 { margin-bottom: 10px; font-family: var(--display); font-size: 30px; }
+.matcher-result { display: grid; grid-template-columns: minmax(120px, 180px) 1fr; gap: 16px; align-items: center; margin: 18px 0; }
+.matcher-result img { width: 100%; max-height: 220px; object-fit: cover; }
+.matcher-result-label { margin: 0; font-size: 11px; }
 .step-indicator { display: flex; gap: 9px; margin-bottom: 35px; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
 .step-indicator span { padding-bottom: 8px; border-bottom: 1px solid transparent; }
 .step-indicator .active { border-color: var(--black); }

@@ -207,6 +207,8 @@ const matcherUpload = document.querySelector("#matcher-upload");
 const uploadPreview = document.querySelector(".upload-preview");
 const matcherNotes = matcherForm?.querySelector("#style-notes");
 const matcherNotesError = matcherForm?.querySelector("#matcher-notes-error");
+const matcherResultImage = document.querySelector("#matcher-result-image");
+const matcherRecommendationCopy = document.querySelector("#matcher-recommendation-copy");
 const uploadMessage = (text) => {
   let message = uploadPreview?.querySelector(".upload-status");
   if (!message && uploadPreview) {
@@ -247,6 +249,13 @@ matcherUpload?.addEventListener("change", () => {
 });
 matcherForm?.addEventListener("submit", (event) => {
   event.preventDefault();
+  const file = matcherUpload?.files?.[0];
+  if (!file) {
+    matcherUpload?.setAttribute("aria-invalid", "true");
+    uploadMessage("Please upload a headshot to create your style preview.");
+    matcherUpload?.focus();
+    return;
+  }
   const notes = matcherNotes;
   if (notes && !notes.value.trim()) {
     notes.setCustomValidity("Tell us what you love so we can prepare your considered edit.");
@@ -258,6 +267,15 @@ matcherForm?.addEventListener("submit", (event) => {
   notes?.setCustomValidity("");
   notes?.removeAttribute("aria-invalid");
   if (matcherNotesError) matcherNotesError.textContent = "";
+  if (matcherResultImage) {
+    matcherResultImage.src = previewUrl;
+    matcherResultImage.alt = `Your original headshot with a ${document.querySelector("#hair-length")?.value.toLowerCase()} recommendation`;
+  }
+  if (matcherRecommendationCopy) {
+    const length = document.querySelector("#hair-length")?.value.toLowerCase();
+    const colour = document.querySelector("#hair-colour")?.value.toLowerCase();
+    matcherRecommendationCopy.textContent = `Our local stylist demo recommends a ${length} look with ${colour}. A professional stylist should confirm face shape, features, hair condition and skin tone in person before any service.`;
+  }
   const recommendation = document.querySelector(".recommendation");
   recommendation?.classList.add("is-visible");
   recommendation?.scrollIntoView({ behavior: "smooth", block: "nearest" });

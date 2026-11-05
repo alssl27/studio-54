@@ -228,6 +228,8 @@ test("style consultation feedback regions announce updates", async () => {
 
   assert.match(matcher, /class="recommendation" role="status" aria-live="polite" aria-atomic="true"/);
   assert.match(matcher, /class="upload-preview" aria-live="polite"/);
+  assert.match(matcher, /id="matcher-result-image"/);
+  assert.match(matcher, /id="matcher-recommendation-copy"/);
 });
 
 test("style consultation notes expose linked validation feedback", async () => {
@@ -253,6 +255,18 @@ test("style consultation upload errors expose recovery state", async () => {
   assert.match(script, /matcherUpload\.setAttribute\("aria-invalid", "true"\)/);
   assert.match(script, /matcherUpload\.removeAttribute\("aria-invalid"\)/);
   assert.match(styles, /\.matcher-panel input\[type="file"\]\[aria-invalid="true"\]/);
+});
+
+test("style matcher requires a headshot and preserves the uploaded identity in the local demo", async () => {
+  const [matcher, script] = await Promise.all([
+    (await fetch(`${baseUrl}/matcher.html`)).text(),
+    (await fetch(`${baseUrl}/script.js`)).text(),
+  ]);
+
+  assert.match(matcher, /id="matcher-upload" type="file" accept="image\/\*" required/);
+  assert.match(matcher, /does not upload or store it/);
+  assert.match(script, /Please upload a headshot to create your style preview/);
+  assert.match(script, /matcherResultImage\.src = previewUrl/);
 });
 
 test("booking completion copy describes a pending request", async () => {
