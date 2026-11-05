@@ -175,6 +175,15 @@ test("style consultation notes expose linked validation feedback", async () => {
   assert.match(styles, /\.matcher-panel textarea\[aria-invalid="true"\]/);
 });
 
+test("style consultation upload errors expose recovery state", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+  const styles = await (await fetch(`${baseUrl}/style.css`)).text();
+
+  assert.match(script, /matcherUpload\.setAttribute\("aria-invalid", "true"\)/);
+  assert.match(script, /matcherUpload\.removeAttribute\("aria-invalid"\)/);
+  assert.match(styles, /\.matcher-panel input\[type="file"\]\[aria-invalid="true"\]/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 

@@ -210,11 +210,13 @@ matcherUpload?.addEventListener("change", () => {
   if (!file) return;
   if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024) {
     matcherUpload.value = "";
+    matcherUpload.setAttribute("aria-invalid", "true");
     uploadPreview.textContent = file.type.startsWith("image/")
       ? "Please choose an image smaller than 10 MB."
       : "Please choose an image file.";
     return;
   }
+  matcherUpload.removeAttribute("aria-invalid");
   if (previewUrl) URL.revokeObjectURL(previewUrl);
   previewUrl = URL.createObjectURL(file);
   const image = document.createElement("img");
