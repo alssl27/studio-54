@@ -426,6 +426,7 @@ bookingDate?.addEventListener("change", async () => {
     return;
   }
   const requestedDate = bookingDate.value;
+  timeGrid.setAttribute("aria-label", "Available appointment times");
   timeGrid.setAttribute("aria-busy", "true");
   timeGrid.replaceChildren();
   bookingStatus(timeGrid, "Loading available times...");
@@ -435,6 +436,7 @@ bookingDate?.addEventListener("change", async () => {
     if (requestId !== availabilityRequestId || bookingDate.value !== requestedDate) return;
     if (!response.ok) throw new Error(result.error || "Availability could not be loaded.");
     renderBookingChoices(timeGrid, result.slots.map((time) => ({ value: time, detail: "Available" })));
+    timeGrid.setAttribute("aria-busy", "false");
     if (!result.slots.length) bookingStatus(timeGrid, "No appointments are available on this date.");
   } catch (error) {
     if (requestId !== availabilityRequestId || bookingDate.value !== requestedDate) return;

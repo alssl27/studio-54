@@ -233,6 +233,8 @@ test("booking availability feedback is atomic", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
   assert.match(script, /status\.setAttribute\("aria-atomic", "true"\)/);
+  assert.match(script, /timeGrid\.setAttribute\("aria-label", "Available appointment times"\)/);
+  assert.match(script, /timeGrid\.setAttribute\("aria-busy", "false"\)/);
 });
 
 test("robots policy keeps operational endpoints out of search", async () => {
