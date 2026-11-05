@@ -75,12 +75,12 @@ const formMessage = document.querySelector(".form-message");
 bookingForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const email = new FormData(bookingForm).get("email");
-  if (typeof email !== "string" || !email.includes("@")) {
+  if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     formMessage.textContent = "Please enter a valid email address.";
     return;
   }
-  formMessage.textContent = "Thank you. Your booking journey is ready to begin.";
-  bookingForm.reset();
+  formMessage.textContent = "Taking you to the booking journey...";
+  window.location.href = `booking.html?email=${encodeURIComponent(email.trim())}`;
 });
 
 const galleryFilters = document.querySelectorAll(".filter-button");
@@ -189,6 +189,11 @@ const bookingSteps = document.querySelectorAll(".booking-step");
 let currentStep = 0;
 const bookingDate = document.querySelector("#booking-date");
 if (bookingDate) bookingDate.min = new Date().toISOString().split("T")[0];
+const bookingEmail = document.querySelector("#guest-email");
+const bookingEmailParam = new URLSearchParams(window.location.search).get("email");
+if (bookingEmail && bookingEmailParam) {
+  bookingEmail.value = bookingEmailParam;
+}
 const bookingData = {
   treatment: "",
   stylist: "",

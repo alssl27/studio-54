@@ -136,6 +136,14 @@ test("customer forms expose autofill hints and server-aligned limits", async () 
   assert.match(contactMarkup, /name="email"[^>]+autocomplete="email"[^>]+maxlength="254"/);
 });
 
+test("homepage booking form routes into the real booking journey", async () => {
+  const markup = await (await fetch(`${baseUrl}/index.html`)).text();
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(markup, /id="booking-form"/);
+  assert.match(script, /booking\.html\?email=/);
+});
+
 test("availability API validates the requested date", async () => {
   const response = await fetch(`${baseUrl}/api/availability?date=not-a-date`);
 
