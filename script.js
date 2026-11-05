@@ -96,6 +96,10 @@ bookingForm?.addEventListener("submit", (event) => {
     return;
   }
   formMessage.textContent = "Taking you to the booking journey...";
+  const submitButton = bookingForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  submitButton.setAttribute("aria-busy", "true");
+  submitButton.setAttribute("aria-label", "Opening booking journey");
   sessionStorage.setItem("studio54.bookingEmail", email.trim());
   window.location.href = "booking.html";
 });

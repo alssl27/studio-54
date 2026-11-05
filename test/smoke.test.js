@@ -103,6 +103,14 @@ test("homepage booking capture has an explicit email label", async () => {
   assert.doesNotMatch(homepage, /class="visually-hidden" for="booking-email"/);
 });
 
+test("homepage booking handoff prevents duplicate submissions", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /submitButton\.disabled = true/);
+  assert.match(script, /submitButton\.setAttribute\("aria-busy", "true"\)/);
+  assert.match(script, /submitButton\.setAttribute\("aria-label", "Opening booking journey"\)/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
