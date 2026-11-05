@@ -134,7 +134,7 @@ test("homepage booking feedback is linked to the email field", async () => {
   const homepage = await (await fetch(`${baseUrl}/index.html`)).text();
 
   assert.match(homepage, /id="booking-email"[^>]+aria-describedby="booking-form-message"/);
-  assert.match(homepage, /class="form-message" id="booking-form-message" role="status"/);
+  assert.match(homepage, /class="form-message" id="booking-form-message" role="status" aria-live="polite" aria-atomic="true"/);
 });
 
 test("homepage booking email feedback clears and marks invalid input", async () => {
@@ -156,7 +156,7 @@ test("contact form exposes linked sending feedback", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
   assert.match(contact, /class="contact-form" aria-describedby="contact-form-status"/);
-  assert.match(contact, /class="form-status" id="contact-form-status" role="status"/);
+  assert.match(contact, /class="form-status" id="contact-form-status" role="status" aria-live="polite" aria-atomic="true"/);
   assert.match(script, /button\.setAttribute\("aria-label", "Sending enquiry"\)/);
   assert.match(script, /button\.textContent = "Sending enquiry\.\.\."/);
 });
