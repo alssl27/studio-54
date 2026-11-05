@@ -153,11 +153,13 @@ test("style consultation feedback regions announce updates", async () => {
 test("style consultation notes expose linked validation feedback", async () => {
   const matcher = await (await fetch(`${baseUrl}/matcher.html`)).text();
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
+  const styles = await (await fetch(`${baseUrl}/style.css`)).text();
 
   assert.match(matcher, /id="style-notes" aria-describedby="matcher-notes-error"/);
   assert.match(matcher, /id="matcher-notes-error" role="status" aria-live="polite"/);
   assert.match(script, /notes\.setAttribute\("aria-invalid", "true"\)/);
   assert.match(script, /matcherNotesError\) matcherNotesError\.textContent = ""/);
+  assert.match(styles, /\.matcher-panel textarea\[aria-invalid="true"\]/);
 });
 
 test("booking completion copy describes a pending request", async () => {
