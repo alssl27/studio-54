@@ -143,6 +143,15 @@ test("contact form exposes linked sending feedback", async () => {
   assert.match(script, /button\.textContent = "Sending enquiry\.\.\."/);
 });
 
+test("contact form exposes recoverable native validation feedback", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /form\.addEventListener\("invalid", \(event\) =>/);
+  assert.match(script, /field\.setAttribute\("aria-invalid", "true"\)/);
+  assert.match(script, /field\.removeAttribute\("aria-invalid"\)/);
+  assert.match(script, /Please complete the highlighted field/);
+});
+
 test("style consultation feedback regions announce updates", async () => {
   const matcher = await (await fetch(`${baseUrl}/matcher.html`)).text();
 
