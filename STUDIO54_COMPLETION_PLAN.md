@@ -5,14 +5,14 @@ This roadmap is intentionally gated. The website implementation should remain un
 ## Phase 1 — Fix critical bugs and build errors
 
 ### 1. Establish a safe baseline
-- [ ] **What:** Put the project under source control, capture the current baseline, and document local setup.
+- [x] **What:** Put the project under source control, capture the current baseline, and document local setup.
 - **Why:** The project is currently not a Git repository, so changes cannot be reviewed or safely reverted.
 - **Files:** Project root, `README.md` (only if approved).
 - **Expected result:** A clean, reviewable baseline with documented start and test commands.
 - **Success test:** `git status` is clean after baseline capture; `npm start` serves the homepage.
 
 ### 2. Repair text encoding and shared branding
-- [ ] **What:** Normalise affected HTML files to UTF-8, fix corrupted punctuation, and align header/footer markup.
+- [x] **What:** Normalise affected HTML files to UTF-8, fix corrupted punctuation, and align header/footer markup.
 - **Why:** Visible mojibake harms trust and shared navigation currently differs by page.
 - **Files:** All HTML pages, `style.css`.
 - **Expected result:** Correct punctuation and one consistent public navigation/brand system.

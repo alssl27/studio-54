@@ -169,7 +169,7 @@ No admin page or authentication route exists in the current file inventory.
 - Each of the nine HTML pages returned HTTP 200 through the running local Express server.
 - A valid-shaped appointment POST returned the expected HTTP 503 because database storage is not configured in the current environment.
 - All nine pages now expose the same primary and secondary navigation labels, and malformed encoding sequences were removed from the HTML files.
-- `npm test` now provides dependency-free smoke coverage for all public pages and the documented booking API validation/storage states.
+- `npm test` now provides dependency-free smoke coverage for all public pages, the documented booking API validation/storage states, and asynchronous decoding on all editorial imagery (54 tests passing).
 - Booking smoke coverage now also protects malformed email and date/time validation responses.
 - The appointment API now validates actual calendar dates and 24-hour time ranges instead of checking only string shape.
 - The appointment API now rejects dates before the server's current UTC date, matching the client-side minimum-date behavior.
