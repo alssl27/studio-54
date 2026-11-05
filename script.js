@@ -374,6 +374,9 @@ document.querySelectorAll("[data-next-step]:not([data-submit-booking])").forEach
     step.querySelector(".booking-error")?.remove();
     const error = document.createElement("p");
     error.className = "booking-error";
+    error.setAttribute("role", "status");
+    error.setAttribute("aria-live", "polite");
+    error.setAttribute("aria-atomic", "true");
     error.textContent = "Please choose an option to continue.";
     step.querySelector(".choice-grid").after(error);
     return;

@@ -220,6 +220,15 @@ test("booking submission restores its action label after an error", async () => 
   assert.doesNotMatch(script, /button\.textContent = "Review request →"/);
 });
 
+test("booking validation errors use atomic live regions", async () => {
+  const booking = await (await fetch(`${baseUrl}/booking.html`)).text();
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(booking, /class="booking-error" role="status" aria-live="polite" aria-atomic="true"/);
+  assert.match(script, /error\.setAttribute\("role", "status"\)/);
+  assert.match(script, /error\.setAttribute\("aria-atomic", "true"\)/);
+});
+
 test("robots policy keeps operational endpoints out of search", async () => {
   const response = await fetch(`${baseUrl}/robots.txt`);
   const robots = await response.text();
