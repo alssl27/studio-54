@@ -463,6 +463,18 @@ test("booking choices announce the selected option", async () => {
   assert.match(script, /announceBookingSelection\(choice\.parentElement, selectedValue\)/);
 });
 
+test("booking keeps fallback treatment choices when live data is unavailable", async () => {
+  const [booking, script] = await Promise.all([
+    (await fetch(`${baseUrl}/booking.html`)).text(),
+    (await fetch(`${baseUrl}/script.js`)).text(),
+  ]);
+
+  assert.match(booking, /<strong>Signature cut<\/strong>/);
+  assert.match(booking, /<strong>Colour atelier<\/strong>/);
+  assert.match(script, /bookingStatus\(grid, error\.message\)/);
+  assert.doesNotMatch(script, /grid\.replaceChildren\(\);\s*bookingStatus\(grid, error\.message\)/);
+});
+
 test("booking submission includes the customer details entered in the final step", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 

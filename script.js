@@ -346,7 +346,6 @@ const loadBookingData = async () => {
   } catch (error) {
     bookingChoiceGrids.slice(0, 2).forEach((grid) => {
       grid.setAttribute("aria-busy", "false");
-      grid.replaceChildren();
       bookingStatus(grid, error.message);
     });
   }
