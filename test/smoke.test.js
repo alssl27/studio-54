@@ -120,8 +120,10 @@ test("homepage booking feedback is linked to the email field", async () => {
 });
 
 test("homepage booking email feedback clears and marks invalid input", async () => {
+  const styles = await (await fetch(`${baseUrl}/style.css`)).text();
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
+  assert.match(styles, /\.form-row input\[aria-invalid="true"\]/);
   assert.match(script, /bookingEmailInput\?\.setAttribute\("aria-invalid", "true"\)/);
   assert.match(script, /bookingEmailInput\?\.setAttribute\("aria-errormessage", "booking-form-message"\)/);
   assert.match(script, /bookingEmailInput\?\.focus\(\)/);
