@@ -96,8 +96,11 @@ test("gallery lightbox synchronizes its dialog visibility", async () => {
 });
 
 test("gallery lightbox names the open image", async () => {
+  const gallery = await (await fetch(`${baseUrl}/gallery.html`)).text();
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
+  assert.match(gallery, /aria-describedby="lightbox-image"/);
+  assert.match(gallery, /<img id="lightbox-image" src="" alt="">/);
   assert.match(script, /lightbox\.setAttribute\("aria-label", `Enlarged gallery image: \$\{image\.alt\}`\)/);
   assert.match(script, /lightbox\?\.setAttribute\("aria-label", "Enlarged gallery image"\)/);
 });
