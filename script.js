@@ -260,13 +260,18 @@ const loadBookingData = async () => {
 };
 loadBookingData();
 const showBookingStep = (step) => {
-  bookingSteps.forEach((item, index) => item.classList.toggle("active", index === step));
+  bookingSteps.forEach((item, index) => {
+    const isActive = index === step;
+    item.classList.toggle("active", isActive);
+    item.setAttribute("aria-hidden", String(!isActive));
+  });
   document.querySelectorAll(".step-indicator span").forEach((item, index) => {
     item.classList.toggle("active", index <= step);
     if (index === step) item.setAttribute("aria-current", "step");
     else item.removeAttribute("aria-current");
   });
 };
+showBookingStep(currentStep);
 document.querySelectorAll("[data-next-step]:not([data-submit-booking])").forEach((button) => button.addEventListener("click", () => {
   const step = bookingSteps[currentStep];
   const choiceRequired = step.querySelector(".choice-grid") && !step.querySelector(".choice.selected");

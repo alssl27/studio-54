@@ -201,6 +201,13 @@ test("booking loading states expose aria-busy semantics", async () => {
   assert.match(script, /setAttribute\("aria-busy", "false"\)/);
 });
 
+test("booking hides inactive steps from assistive technology", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /item\.setAttribute\("aria-hidden", String\(!isActive\)\)/);
+  assert.match(script, /showBookingStep\(currentStep\);\s*document\.querySelectorAll\("\[data-next-step\]/);
+});
+
 test("clearing the booking date invalidates availability work", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
