@@ -88,6 +88,13 @@ test("gallery lightbox synchronizes its dialog visibility", async () => {
   assert.match(script, /lightbox\?\.setAttribute\("aria-hidden", "true"\)/);
 });
 
+test("gallery lightbox names the open image", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /lightbox\.setAttribute\("aria-label", `Enlarged gallery image: \$\{image\.alt\}`\)/);
+  assert.match(script, /lightbox\?\.setAttribute\("aria-label", "Enlarged gallery image"\)/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
