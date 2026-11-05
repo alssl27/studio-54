@@ -142,6 +142,7 @@ h1 em, h2 em { font-style: normal; }
 .editorial-grid .gallery-card { height: 390px; }
 .editorial-grid .gallery-card:nth-child(2n) { margin-top: 45px; }
 .lightbox { position: fixed; z-index: 15; inset: 0; display: none; place-items: center; padding: 30px; background: rgba(0,0,0,.92); }
+.lightbox-open { overflow: hidden; }
 .lightbox.is-visible { display: grid; }
 .lightbox img { width: auto; max-width: min(90vw, 850px); max-height: 80vh; object-fit: contain; }
 .lightbox-close { position: absolute; top: 25px; right: 30px; border: 0; color: var(--white); background: transparent; font-size: 30px; }

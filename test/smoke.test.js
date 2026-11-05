@@ -93,6 +93,8 @@ test("gallery lightbox synchronizes its dialog visibility", async () => {
   assert.match(gallery, /id="gallery-lightbox" class="lightbox" role="dialog"/);
   assert.match(script, /image\.setAttribute\("aria-controls", "gallery-lightbox"\)/);
   assert.match(script, /image\.setAttribute\("aria-haspopup", "dialog"\)/);
+  assert.match(script, /document\.body\.classList\.add\("lightbox-open"\)/);
+  assert.match(script, /document\.body\.classList\.remove\("lightbox-open"\)/);
   assert.match(script, /image\.setAttribute\("aria-expanded", "false"\)/);
   assert.match(script, /image\.setAttribute\("aria-expanded", "true"\)/);
   assert.match(script, /lightboxTrigger\?\.setAttribute\("aria-expanded", "false"\)/);
