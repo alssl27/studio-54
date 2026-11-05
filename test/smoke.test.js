@@ -111,6 +111,13 @@ test("homepage booking handoff prevents duplicate submissions", async () => {
   assert.match(script, /submitButton\.setAttribute\("aria-label", "Opening booking journey"\)/);
 });
 
+test("homepage booking feedback is linked to the email field", async () => {
+  const homepage = await (await fetch(`${baseUrl}/index.html`)).text();
+
+  assert.match(homepage, /id="booking-email"[^>]+aria-describedby="booking-form-message"/);
+  assert.match(homepage, /class="form-message" id="booking-form-message" role="status"/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
