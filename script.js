@@ -292,6 +292,7 @@ const bookingStatus = (grid, text) => {
     status.className = "booking-data-status booking-error";
     status.setAttribute("role", "status");
     status.setAttribute("aria-live", "polite");
+    status.setAttribute("aria-atomic", "true");
     grid.after(status);
   }
   status.textContent = text;

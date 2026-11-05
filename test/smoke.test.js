@@ -229,6 +229,12 @@ test("booking validation errors use atomic live regions", async () => {
   assert.match(script, /error\.setAttribute\("aria-atomic", "true"\)/);
 });
 
+test("booking availability feedback is atomic", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /status\.setAttribute\("aria-atomic", "true"\)/);
+});
+
 test("robots policy keeps operational endpoints out of search", async () => {
   const response = await fetch(`${baseUrl}/robots.txt`);
   const robots = await response.text();
