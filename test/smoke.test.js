@@ -74,7 +74,7 @@ test("gallery filters announce the visible result count", async () => {
   const gallery = await (await fetch(`${baseUrl}/gallery.html`)).text();
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
-  assert.match(gallery, /class="gallery-filter-status" role="status" aria-live="polite"/);
+  assert.match(gallery, /class="gallery-filter-status" role="status" aria-live="polite" aria-atomic="true"/);
   assert.match(script, /galleryFilterStatus && \(galleryFilterStatus\.textContent =/);
   assert.match(script, /updateGalleryFilterStatus\(category, filter\.textContent\.trim\(\)\)/);
 });
