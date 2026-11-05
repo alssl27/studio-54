@@ -54,6 +54,12 @@ test("all public pages load successfully", async () => {
   }
 });
 
+test("product imagery uses asynchronous decoding", async () => {
+  const products = await (await fetch(`${baseUrl}/products.html`)).text();
+
+  assert.equal((products.match(/decoding="async"/g) || []).length, 3);
+});
+
 test("mobile navigation closes when focus moves outside the menu", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
