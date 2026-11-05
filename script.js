@@ -149,10 +149,12 @@ document.querySelectorAll("[data-lightbox]").forEach((image) => {
   image.setAttribute("tabindex", "0");
   image.setAttribute("role", "button");
   image.setAttribute("aria-controls", "gallery-lightbox");
+  image.setAttribute("aria-expanded", "false");
   image.setAttribute("aria-label", `Enlarge image: ${image.alt}`);
   const openLightbox = () => {
     if (!lightbox || !lightboxImage) return;
     lightboxTrigger = image;
+    image.setAttribute("aria-expanded", "true");
     lightboxImage.src = image.src;
     lightboxImage.alt = image.alt;
       lightbox.setAttribute("aria-hidden", "false");
@@ -174,6 +176,7 @@ const closeLightbox = () => {
   lightbox?.classList.remove("is-visible");
   lightbox?.setAttribute("aria-hidden", "true");
   lightbox?.setAttribute("aria-label", "Enlarged gallery image");
+  lightboxTrigger?.setAttribute("aria-expanded", "false");
 };
 document.querySelector(".lightbox-close")?.addEventListener("click", () => {
   closeLightbox();
