@@ -159,6 +159,7 @@ h1 em, h2 em { font-style: normal; }
   border-color: #9c2431;
 }
 .matcher-panel textarea[aria-invalid="true"] { border-color: #9c2431; box-shadow: inset 0 0 0 1px #9c2431; }
+.contact-form input[aria-invalid="true"], .contact-form textarea[aria-invalid="true"] { border-color: #9c2431; box-shadow: inset 0 0 0 1px #9c2431; }
 .matcher-panel textarea, .contact-form textarea { min-height: 100px; resize: vertical; }
 .matcher-panel .button, .contact-form .button { margin-top: 25px; }
 .upload-preview { display: grid; min-height: 270px; place-items: center; border: 1px dashed rgba(0,0,0,.4); text-align: center; }

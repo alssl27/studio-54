@@ -144,8 +144,10 @@ test("contact form exposes linked sending feedback", async () => {
 });
 
 test("contact form exposes recoverable native validation feedback", async () => {
+  const styles = await (await fetch(`${baseUrl}/style.css`)).text();
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
+  assert.match(styles, /\.contact-form input\[aria-invalid="true"\]/);
   assert.match(script, /form\.addEventListener\("invalid", \(event\) =>/);
   assert.match(script, /field\.setAttribute\("aria-invalid", "true"\)/);
   assert.match(script, /field\.removeAttribute\("aria-invalid"\)/);
