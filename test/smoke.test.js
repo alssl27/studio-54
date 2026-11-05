@@ -113,6 +113,15 @@ test("booking data APIs report unavailable storage clearly", async () => {
   }
 });
 
+test("services page preserves a visible fallback when live data is unavailable", async () => {
+  const response = await fetch(`${baseUrl}/services.html`);
+  const markup = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(markup, /data-services-list/);
+  assert.match(markup, /Signature cut/);
+});
+
 test("availability API validates the requested date", async () => {
   const response = await fetch(`${baseUrl}/api/availability?date=not-a-date`);
 

@@ -26,6 +26,49 @@ if (menuToggle && navigation) {
   });
 }
 
+const servicesList = document.querySelector("[data-services-list]");
+const renderServices = (services) => {
+  servicesList.replaceChildren(...services.map((service) => {
+    const row = document.createElement("div");
+    row.className = "price-row";
+    const name = document.createElement("h3");
+    name.textContent = service.name;
+    const description = document.createElement("p");
+    description.textContent = service.description;
+    const price = document.createElement("span");
+    price.className = "price-detail";
+    price.textContent = `From £${service.price_from}`;
+    const duration = document.createElement("span");
+    duration.className = "price-detail";
+    duration.textContent = `${service.duration_minutes} min`;
+    const bookingLink = document.createElement("a");
+    bookingLink.className = "button";
+    bookingLink.href = "booking.html";
+    bookingLink.textContent = "Book";
+    row.append(name, description, price, duration, bookingLink);
+    return row;
+  }));
+};
+const loadServices = async () => {
+  if (!servicesList) return;
+  try {
+    const response = await fetch("/api/services");
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Services could not be loaded.");
+    if (!Array.isArray(result.services) || result.services.length === 0) {
+      throw new Error("No live services are available.");
+    }
+    renderServices(result.services);
+  } catch (error) {
+    const status = document.createElement("p");
+    status.className = "booking-error";
+    status.setAttribute("role", "status");
+    status.textContent = `Live services are unavailable. Showing the demonstration list. (${error.message})`;
+    servicesList.before(status);
+  }
+};
+loadServices();
+
 const bookingForm = document.querySelector("#booking-form");
 const formMessage = document.querySelector(".form-message");
 

@@ -36,11 +36,12 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Success test:** Content owner review confirms every address, price, person, link, and legal label.
 
 ### 5. Unify content data
-- [ ] **What:** Decide which content should be database-managed and remove duplicated hard-coded service/stylist data.
+- [x] **What:** Use database-managed services and stylists for booking and public service presentation, with an explicit demonstration fallback when storage is unavailable.
 - **Why:** Duplicated values will drift between services and booking.
 - **Files:** `db/schema.sql`, `server.js`, `services.html`, `booking.html`, `script.js`.
 - **Expected result:** One authoritative source for services and stylists.
 - **Success test:** Updating a service in the approved source changes both the public list and booking choices.
+- **Progress:** The services page now consumes `/api/services` and renders the same service records used by booking. Its static demonstration list remains visible with an explicit status when database storage is unavailable; stylist choices were already database-backed.
 
 ## Phase 3 — Repair existing functionality
 

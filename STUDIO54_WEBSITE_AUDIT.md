@@ -67,7 +67,7 @@ All nine pages were opened through the running Express server and returned HTTP 
 ### Medium priority
 
 6. Contact enquiries now persist through `POST /api/contact` when database storage is configured.
-7. Treatments, stylists, and booking availability are now read from database-backed APIs; the public services page remains static and is a later content-unification task.
+7. Treatments, stylists, and booking availability are now read from database-backed APIs; the public services page also consumes the treatments API and explicitly labels its demonstration fallback when storage is unavailable.
 8. The footer and branding are not fully consistent across pages; some pages still use the older `studio 54` brand markup while the homepage has the newer lockup.
 9. Page content, prices, team data, products, and tutorials are static and cannot be managed without editing files.
 
