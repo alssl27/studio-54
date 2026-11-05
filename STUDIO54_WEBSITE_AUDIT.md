@@ -173,6 +173,7 @@ No admin page or authentication route exists in the current file inventory.
 - Booking smoke coverage now also protects malformed email and date/time validation responses.
 - The appointment API now validates actual calendar dates and 24-hour time ranges instead of checking only string shape.
 - The appointment API now rejects dates before the server's current UTC date, matching the client-side minimum-date behavior.
+- Availability responses now exclude non-cancelled appointments, reducing stale slot choices before submission; the database-backed query path remains unverified without PostgreSQL.
 - Appointment text fields now have explicit server-side length limits in addition to the 10 KB JSON body limit.
 - The appointment endpoint now guards against `null` and array JSON bodies before destructuring request fields.
 - Malformed appointment JSON now returns a consistent JSON 400 response instead of Express’s default HTML parser error.

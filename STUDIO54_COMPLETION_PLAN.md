@@ -140,6 +140,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Expected result:** A slot can only be booked when it is valid and still free.
 - **Success test:** Concurrent and repeated booking attempts return one success and one clear conflict response.
 - **Progress:** Added an active-slot unique index, availability membership check, and explicit HTTP 409 responses for stale or concurrently claimed slots. Database-backed concurrency tests require a configured PostgreSQL environment.
+- **Progress:** Availability reads now omit non-cancelled appointment conflicts before the customer selects a time; the database constraint and submit-time conflict response remain the final race-safe guard.
 
 ### 10. Add confirmation and booking management states
 - [x] **What:** Return a stable confirmation reference and expose requested/confirmed/cancelled status handling.

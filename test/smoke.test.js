@@ -173,6 +173,13 @@ test("availability API reports unavailable storage clearly", async () => {
   });
 });
 
+test("availability query excludes active appointment conflicts", async () => {
+  const source = await (await fetch(`${baseUrl}/server.js`)).text();
+
+  assert.match(source, /NOT EXISTS\s*\(\s*SELECT 1\s+FROM appointments/);
+  assert.match(source, /status <> 'cancelled'/);
+});
+
 test("booking API rejects incomplete appointment data", async () => {
   const response = await fetch(`${baseUrl}/api/appointments`, {
     method: "POST",

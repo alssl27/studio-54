@@ -81,7 +81,15 @@ app.get("/api/availability", async (request, response) => {
     const result = await pool.query(
       `SELECT DISTINCT TO_CHAR(slot_time, 'HH24:MI') AS slot_time
        FROM availability_slots
-       WHERE slot_date = $1 AND active = TRUE
+       WHERE slot_date = $1
+         AND active = TRUE
+         AND NOT EXISTS (
+           SELECT 1
+           FROM appointments
+           WHERE appointment_date = availability_slots.slot_date
+             AND appointment_time = availability_slots.slot_time
+             AND status <> 'cancelled'
+         )
        ORDER BY slot_time`,
       [date],
     );
