@@ -218,6 +218,16 @@ test("booking date guidance describes the available-time picker", async () => {
   assert.match(booking, /id="available-times" role="group" aria-label="Available appointment times"/);
 });
 
+test("booking panels have explicit accessible names", async () => {
+  const booking = await (await fetch(`${baseUrl}/booking.html`)).text();
+
+  assert.match(booking, /aria-labelledby="booking-treatment-heading"/);
+  assert.match(booking, /aria-labelledby="booking-stylist-heading"/);
+  assert.match(booking, /aria-labelledby="booking-date-heading"/);
+  assert.match(booking, /aria-labelledby="booking-details-heading"/);
+  assert.match(booking, /aria-labelledby="booking-confirmation-heading"/);
+});
+
 test("clearing the booking date invalidates availability work", async () => {
   const script = await (await fetch(`${baseUrl}/script.js`)).text();
 
