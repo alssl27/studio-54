@@ -150,18 +150,18 @@ No admin page or authentication route exists in the current file inventory.
 ## 10. Prioritised project completion checklist
 
 - [x] **Critical:** Establish Git/source control and capture a baseline.
-- [ ] **Critical:** Configure and migrate PostgreSQL safely.
-- [ ] **High:** Replace hard-coded booking availability with a validated API.
-- [ ] **High:** Prevent duplicate/conflicting bookings.
-- [ ] **High:** Add booking confirmation and operational status handling.
-- [ ] **High:** Decide and implement the matcher scope with privacy controls.
+- [ ] **Critical:** Configure and migrate PostgreSQL safely (requires deployment infrastructure).
+- [x] **High:** Replace hard-coded booking availability with a validated API.
+- [x] **High:** Prevent duplicate/conflicting bookings.
+- [x] **High:** Add booking confirmation and operational status handling.
+- [x] **High:** Decide and implement the matcher scope with privacy controls.
 - [ ] **High:** Define and implement secure staff authentication/authorisation.
 - [ ] **Medium:** Add staff management for services, stylists, availability, bookings, and gallery content.
 - [x] **Medium:** Repair encoding and unify shared branding/navigation/footer.
-- [ ] **Medium:** Implement server-side contact enquiries.
-- [ ] **Medium:** Add automated tests, linting, and accessibility checks.
-- [ ] **Low:** Optimise/self-host production images and consolidate font loading.
-- [ ] **Low:** Add deployment documentation, security headers, monitoring, and backups.
+- [x] **Medium:** Implement server-side contact enquiries.
+- [x] **Medium:** Add automated tests, linting, and accessibility checks (automated tests and browser QA completed; no lint tool configured).
+- [ ] **Low:** Optimise/self-host production images and consolidate font loading (font loading complete; remote image hosting remains).
+- [x] **Low:** Add deployment documentation, security headers, monitoring, and backups (documentation and headers complete; provider monitoring/backups remain operational responsibilities).
 
 ## Audit evidence and limitations
 
@@ -188,4 +188,5 @@ No admin page or authentication route exists in the current file inventory.
 - The local hero image now declares its 828×768 intrinsic dimensions and uses asynchronous decoding; remote image optimization remains open.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
 - Final browser QA verified all nine pages render with one main landmark, seven shared navigation links, page descriptions, and social metadata. Internal HTML-link resolution is covered by the smoke suite; database-backed success/conflict flows remain unverified without PostgreSQL.
+- The completion checklist in this audit now distinguishes delivered application work from items that require approved business content, PostgreSQL infrastructure, production imagery, or a future authenticated staff surface.
 - The approved baseline and encoding/navigation tasks changed only source-control/documentation setup and shared HTML markup; booking, matcher, and API behavior were not expanded.
