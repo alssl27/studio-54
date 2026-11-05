@@ -24,6 +24,16 @@ if (menuToggle && navigation) {
       menuToggle.focus();
     }
   });
+
+  document.addEventListener("click", (event) => {
+    if (
+      navigation.classList.contains("is-open")
+      && !navigation.contains(event.target)
+      && !menuToggle.contains(event.target)
+    ) {
+      closeMenu();
+    }
+  });
 }
 
 const servicesList = document.querySelector("[data-services-list]");

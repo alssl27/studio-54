@@ -54,6 +54,15 @@ test("all public pages load successfully", async () => {
   }
 });
 
+test("mobile navigation closes when focus moves outside the menu", async () => {
+  const script = await (await fetch(`${baseUrl}/script.js`)).text();
+
+  assert.match(script, /navigation\.classList\.contains\("is-open"\)/);
+  assert.match(script, /!navigation\.contains\(event\.target\)/);
+  assert.match(script, /!menuToggle\.contains\(event\.target\)/);
+  assert.match(script, /closeMenu\(\);\s*\n\s*}\s*\n\s*}\);\s*\n}/);
+});
+
 test("booking completion copy describes a pending request", async () => {
   const markup = await (await fetch(`${baseUrl}/booking.html`)).text();
 
