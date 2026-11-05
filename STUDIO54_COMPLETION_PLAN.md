@@ -183,6 +183,7 @@ This roadmap is intentionally gated. The website implementation should remain un
 - **Progress:** Baseline `nosniff`, clickjacking, referrer, and permissions headers are now sent by the Express server.
 - **Progress:** A resource-scoped Content Security Policy now limits scripts, styles, fonts, images, connections, forms, frames, and objects to the site’s required sources.
 - **Progress:** The local hero asset now declares intrinsic dimensions and asynchronous decoding to reduce layout shift.
+- **Progress:** The above-the-fold hero image now declares high fetch priority; remote editorial images retain lazy loading because their intrinsic dimensions are not locally verifiable and self-hosting is still pending.
 - **Progress:** All public pages now expose consistent theme-color, Open Graph title/description/type, and Twitter card metadata without inventing a production domain or social image.
 - **Why:** Remote images and duplicate font declarations can affect loading and layout stability.
 - **Files:** HTML pages, `style.css`, `server.js`, `assets/`.

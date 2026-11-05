@@ -186,6 +186,7 @@ No admin page or authentication route exists in the current file inventory.
 - The Express server now sends baseline security headers plus a resource-scoped Content Security Policy; deployment security review remains open.
 - All nine public pages now include page-specific descriptions plus theme-color, Open Graph, and Twitter card metadata; canonical URLs, structured data, and deployment metadata remain open.
 - The local hero image now declares its 828×768 intrinsic dimensions and uses asynchronous decoding; remote image optimization remains open.
+- The local hero image now also requests high fetch priority, while remote editorial images remain lazy-loaded until approved assets can be self-hosted and dimensioned.
 - No production database, real email provider, AI provider, staff account, or deployment environment was available for end-to-end verification.
 - Final browser QA verified all nine pages render with one main landmark, seven shared navigation links, page descriptions, and social metadata. Internal HTML-link resolution is covered by the smoke suite; database-backed success/conflict flows remain unverified without PostgreSQL.
 - The completion checklist in this audit now distinguishes delivered application work from items that require approved business content, PostgreSQL infrastructure, production imagery, or a future authenticated staff surface.
